@@ -6,7 +6,7 @@
 /*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 13:10:21 by vellery-          #+#    #+#             */
-/*   Updated: 2019/10/13 02:03:46 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/01/17 08:50:05 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <string.h>
 # include <stdint.h>
 # include "get_next_line.h"
+# include "ft_printf.h"
 
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
@@ -27,6 +28,7 @@ void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t			ft_strlen(const char *s);
 char			*ft_strdup(const char *s1);
+char			*ft_strndup(const char *s1, int n);
 char			*ft_strncpy(char *dst, const char *src, size_t len);
 char			*ft_strcat(char *s1, const char *s2);
 char			*ft_strncat(char *s1, const char *s2, size_t n);
@@ -77,6 +79,7 @@ char			*ft_strtrim(char const *s);
 char			*ft_itoa(int n);
 char			*ft_ftoa(long double val, int preci, int sign);
 char			**ft_strsplit(char const *s, char c);
+char			*ft_strnjoin(char *s1, char *s2, int len_s1, int len_s2);
 
 typedef struct	s_list
 {

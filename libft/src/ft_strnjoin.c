@@ -1,24 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/25 20:42:41 by vellery-          #+#    #+#             */
-/*   Updated: 2020/01/17 08:54:21 by vellery-         ###   ########.fr       */
+/*   Created: 2019/08/23 18:41:41 by vellery-          #+#    #+#             */
+/*   Updated: 2019/08/23 18:41:42 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
+#include <stdlib.h>
 
-# include <fcntl.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include "libft.h"
-# define BUFF_SIZE 1024
+char	*ft_strnjoin(char *s1, char *s2, int len_s1, int len_s2)
+{
+	char	*str;
+	int		i;
+	int		j;
 
-int	get_next_line(int fd, char **line);
-
-#endif
+	if (!s1)
+		return (NULL);
+	str = (char*)malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len_s1)
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (j < len_s2)
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	str[i + j] = '\0';
+	return (str);
+}

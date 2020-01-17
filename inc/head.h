@@ -23,8 +23,9 @@ typedef struct	s_champ
 
 typedef struct	s_vm
 {
-	int			players_num;
-	t_champ		*champ;
+	int				players_num;
+	t_champ			*champ;
+	unsigned char	map[MEM_SIZE];
 }				t_vm;
 
 // typedef struct s_list

@@ -49,16 +49,3 @@ void	init_champs(int argc, char **argv, t_vm *vm)
 		i++;
 	}
 }
-
-void	print_info(t_vm *vm)
-{
-	while (vm->champ)
-	{
-		printf("ID: %d\n", vm->champ->id);
-		printf("NAME: %s\n", vm->champ->header.prog_name);
-		printf("PROG SIZE: %d\n", vm->champ->header.prog_size);
-		printf("COMMENT: \"%s\"\n\n", vm->champ->header.comment);
-		vm->champ = vm->champ->next;
-	}
-	printf("NUMBER OF PLAYERS: %d\n", vm->players_num);
-}
