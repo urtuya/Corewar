@@ -1,24 +1,49 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
+#include "../inc/head.h"
 
-
-int main(int argc, char **argv)
+void	malloc_err(void *addr, char *func)
 {
-	int fd;
-	int size;
-	int sizecounter;
-	unsigned char *buf;
-	char str[17] = "0123456789abcdef";
+	if (!addr)
+		error("malloc error in %s\n", func);
+}
 
-	buf = malloc(sizeof(unsigned char*) * 1000);
+void	usage(void)
+{
+	printf("Usage: ./corewar scdvfbgkdfgnv,ldjvkzsmdvnxfdgb\n");
+	exit(0);
+}
 
-	sizecounter = 0;
-	fd = open(argv[1], O_RDONLY);
-	while ((size = read(fd, buf, 100)) > 0)
-		sizecounter += size;
-	printf("size = %d\n", sizecounter);
-	printf ("buf = %c\n", str[buf[0]]);
+void	error(char *format, char *str)
+{
+	fprintf(stderr, format, str);
+	exit (1);
+}
+
+int		check_extention(char *file)
+{
+	char *tmp;
+
+	tmp = ft_strstr(file, ".cor");
+	if (!tmp || ft_strcmp(tmp, ".cor"))
+		return (0);
+	return (1);
+}
+
+
+
+int		main(int argc, char **argv)
+{
+	t_vm		*vm;
+
+	vm = NULL;
+	if (argc < 2)
+		usage();
+	else if (argc > MAX_ARGS_NUMBER + 1)
+		error("%s\n", "Too many champions");
+	vm = init_vm();
+	init_champs(argc - 1, argv + 1, vm);
+
+	print_info(vm);
+
 	return (0);
 }
+
