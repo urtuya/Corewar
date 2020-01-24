@@ -15,8 +15,8 @@ void	malloc_err(void *addr, char *func)
 
 void	usage(void)
 {
-	ft_printf("Usage: ./corewar scdvfbgkdfgnv,ldjvkzsmdvnxfdgb\n");
-	exit(0);
+	ft_fprintf(stderr, "Usage: ./corewar scdvfbgkdfgnv,ldjvkzsmdvnxfdgb\n");
+	exit(1);
 }
 
 int		check_extention(char *file)
@@ -28,7 +28,7 @@ int		check_extention(char *file)
 		return (0);
 	return (1);
 }
-
+//-------------------------------LIST  OF CHAMPS
 void	print_info(t_vm *vm)
 {
 	while (vm->champ)
@@ -39,7 +39,7 @@ void	print_info(t_vm *vm)
 		ft_fprintf(stderr, "COMMENT: \"%s\"\n\n", vm->champ->header.comment);
 		vm->champ = vm->champ->next;
 	}
-	printf("NUMBER OF PLAYERS: %d\n", vm->players_num);
+	ft_fprintf(stderr, "NUMBER OF PLAYERS: %d\n", vm->players_num);
 }
 
 int		main(int argc, char **argv)
@@ -54,6 +54,10 @@ int		main(int argc, char **argv)
 		error("%s\n", "Too many champions");
 	vm = init_vm();
 	init_champs(argc - 1, argv + 1, vm);
+
+
+	init_arena(vm);
+	start(vm);
 	print_info(vm);
 
 	return (0);

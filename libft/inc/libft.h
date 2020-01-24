@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   head.h                                             :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 13:10:21 by vellery-          #+#    #+#             */
-/*   Updated: 2020/01/17 08:50:05 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/01/24 12:20:15 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void			ft_ex_prnt_arr(int *arr, int size);
 void			ft_ex_prnt(int **mat, int str, int stb);
 void			*ft_ex_matdel(int **mat, int str);
 void			ft_change_val(int **mat, int str_pos, int stb_pos, int val);
-
 char			*ft_intmaxtoa(intmax_t val, int base);
 char			*ft_uintmaxtoa(uintmax_t val, int base);
+
 #endif

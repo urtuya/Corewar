@@ -21,12 +21,46 @@ typedef struct	s_champ
 	struct s_champ	*next;
 }				t_champ;
 
+typedef struct	s_cursor
+{
+	int				id;
+	int 			carry;
+	int				op_code;
+	int				last_live_cycle_nbr;
+	int				cycle_num; // num of cycles until op
+	size_t			cur_addr; // addr of current cursor
+	int				bytes_to_get;
+	int				r[16];
+
+	char			*CHAMP_NAME;
+
+	struct s_cursor *next;
+}				t_cursor;
+
+typedef struct	s_fl
+{
+	int	dump;
+	int	n;
+}				t_fl;
+
 typedef struct	s_vm
 {
 	int				players_num;
 	t_champ			*champ;
-	unsigned char	map[MEM_SIZE];
+	t_champ			champs[4];
+	unsigned char	arena[MEM_SIZE];
+	t_fl			flag;
+
+	t_cursor		*cursor;
+	int				last_live;
+	int				cycles;
+	int				nbr_live;
+	int				cycles_to_die;
+	int				max_checks;
+	t_champ			*champ_head;
 }				t_vm;
+
+
 
 // typedef struct s_list
 #endif
@@ -35,7 +69,7 @@ typedef struct	s_vm
 //------------------main.c
 
 void	usage(void);
-void	error(char *format, char *str);
+void	error(char *format, void *str);
 // int		check_extention(char *file);
 void	malloc_err(void *addr, char *func);
 
@@ -46,3 +80,7 @@ void	init_champs(int argc, char **argv, t_vm *vm);
 
 //------------------validation.c
 void	check_valid(char *file, t_champ *champ);
+int		bin2int(unsigned char *buf, int size);
+
+//------------------arena.c
+void	init_arena(t_vm *vm);
