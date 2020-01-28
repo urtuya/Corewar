@@ -51,17 +51,4 @@ typedef struct					s_header
 	unsigned int		prog_size;
 	char				comment[COMMENT_LENGTH + 1];
 }								t_header;
-
-typedef struct					s_op
-{
-	char		*op;
-	int			num;
-	int			type;
-	int			arg1;
-	int			arg2;
-	char		*comment;
-	int			q;
-	int			w;
-}								t_op;
-
 #endif

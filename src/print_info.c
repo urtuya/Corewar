@@ -1,0 +1,78 @@
+#include "head.h"
+
+void	print_info(t_vm *vm)
+{
+	while (vm->champ)
+	{
+		ft_fprintf(stderr, "ID: %d\n", vm->champ->id);
+		ft_fprintf(stderr, "NAME: %s\n", vm->champ->header.prog_name);
+		ft_fprintf(stderr, "PROG SIZE: %d\n", vm->champ->header.prog_size);
+		ft_fprintf(stderr, "COMMENT: \"%s\"\n\n", vm->champ->header.comment);
+		vm->champ = vm->champ->next;
+	}
+	ft_fprintf(stderr, "NUMBER OF PLAYERS: %d\n", vm->players_num);
+}
+
+void	print_arena(unsigned char *arena, t_champ *champ, int next_byte)
+{
+	int i;
+	int j;
+	int k;
+	int until_next_byte;
+
+	i = 0;
+	k = 0;
+	until_next_byte = 0;
+	while (i < 64)
+	{
+		j = 0;
+		while (j < 64)
+		{
+			if (champ && k < champ->header.prog_size + until_next_byte)
+				ft_fprintf(stderr, "{magenta}%02x  ", arena[k]);
+			else if (k < until_next_byte + next_byte)
+				ft_fprintf(stderr, "%02x  ", arena[k]);
+			if (k != MEM_SIZE - 1 && k == until_next_byte - 1 + next_byte)
+			{
+				champ = champ->next;
+				until_next_byte += next_byte;
+			}
+			j++;
+			k++;
+		}
+		ft_printf("\n");
+		i++;
+	}
+}
+
+
+void	print_list_of_cursors(t_cursor *cursor)
+{
+	t_cursor *cursors;
+
+	cursors = cursor;
+	while (cursor)
+	{
+		ft_printf("ID: %d\n", cursor->id);
+		ft_printf("OP_CODE: %d\n", cursor->op_code);
+		ft_printf("CYCLES TO EXEC: %d\n", cursor->cycles_before_op);
+		ft_printf("{red}CHAMP: %s\n", cursor->CHAMP_NAME);
+		if (cursor->next)
+		{
+			ft_printf("|\n");
+			ft_printf("V\n");
+		}
+		cursor = cursor->next;
+	}
+}
+
+// void	print_oper_codes(t_cursor *curr)
+// {
+// 	t_cursor *cursor;
+
+// 	cursor = curr;
+// 	while (curr)
+// 	{
+// 		printf("");
+// 	}
+// }

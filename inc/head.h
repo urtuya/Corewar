@@ -13,35 +13,82 @@
 # define NULL_SIZE 4
 # define EXEC_CODE_SIZE 4
 
+# define LIVE 0x01
+# define LD 0x02
+# define ST 0x03
+# define ADD 0x04
+# define SUB 0x05
+# define AND 0x06
+# define OR 0x07
+# define XOR 0x08
+# define ZJMP 0x09
+# define LDI 0x0a
+# define STI 0x0b
+# define FORK 0x0c
+# define LLD 0x0d
+# define LLDI 0x0e
+# define LFORK 0x0f
+# define AFF 0x10
+
+# define IS_T_REG(x)  ((x == T_REG) ? 1 : 0)
+# define IS_t_IND(x) ((x == T_IND) ? 1 : 0)
+# define IS_T_DIR(x) ((x == T_DIR) ? 1 : 0)
+
+
 typedef struct	s_champ
 {
-	int				id;
+	size_t			id;
 	t_header		header;
+	size_t			start_from;
 	unsigned char	*exec_code;
 	struct s_champ	*next;
 }				t_champ;
 
 typedef struct	s_cursor
 {
-	int				id;
+	struct s_cursor *head;
+	size_t			id;
 	int 			carry;
 	int				op_code;
 	int				last_live_cycle_nbr;
-	int				cycle_num; // num of cycles until op
-	size_t			cur_addr; // addr of current cursor
-	int				bytes_to_get;
+	int				cycles_before_op; // num of cycles until op
+	size_t			cur_position; // addr of current cursor
+	int				bytes_to_next_op;
 	int				r[16];
 
 	char			*CHAMP_NAME;
-
+	struct s_cursor *prev;
 	struct s_cursor *next;
 }				t_cursor;
 
 typedef struct	s_fl
 {
-	int	dump;
+	int	dump;	//32 octets
+	int	d;		//64 octets
 	int	n;
 }				t_fl;
+
+typedef struct	s_arena
+{
+	size_t			addr;
+	int				champ_id;
+	char			*champ_name;
+	unsigned char	*code;
+}				t_arena;
+
+typedef struct	s_op
+{
+	char	*name;
+	int		type; //01 10 11 type of arg
+	int		arg[3];
+	int		code;
+	int		cycles_to_exec;
+	char	*desc;
+	int		code_type_args;
+	int		size_of_t_dir; //  0=4, 1=2
+}				t_op;
+
+t_op			op_tab[17];
 
 typedef struct	s_vm
 {
@@ -50,16 +97,18 @@ typedef struct	s_vm
 	t_champ			champs[4];
 	unsigned char	arena[MEM_SIZE];
 	t_fl			flag;
-
+	// t_arena			arena[MEM_SIZE];
+	int				was_inspected;
+	int				next_byte;
+	size_t			num_of_cursors;
 	t_cursor		*cursor;
 	int				last_live;
-	int				cycles;
+	int				num_of_cycles; //num of cycles
 	int				nbr_live;
 	int				cycles_to_die;
-	int				max_checks;
+	int				checks; // num of checks/inspection()
 	t_champ			*champ_head;
 }				t_vm;
-
 
 
 // typedef struct s_list
@@ -77,6 +126,8 @@ void	malloc_err(void *addr, char *func);
 t_vm	*init_vm(void);
 void	add_champ(t_champ **champ_list, t_champ *champ_to_add);
 void	init_champs(int argc, char **argv, t_vm *vm);
+void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old);
+t_cursor	*init_first_cursors(t_vm *vm);
 
 //------------------validation.c
 void	check_valid(char *file, t_champ *champ);
@@ -84,3 +135,12 @@ int		bin2int(unsigned char *buf, int size);
 
 //------------------arena.c
 void	init_arena(t_vm *vm);
+
+//------------------print_info.c
+void	print_info(t_vm *vm);
+void	print_arena(unsigned char *arena, t_champ *champ, int next_byte);
+void	print_list_of_cursors(t_cursor *cursor);
+
+
+//------------------start.c
+void	start(t_vm *vm);

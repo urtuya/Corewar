@@ -29,18 +29,9 @@ int		check_extention(char *file)
 	return (1);
 }
 //-------------------------------LIST  OF CHAMPS
-void	print_info(t_vm *vm)
-{
-	while (vm->champ)
-	{
-		ft_fprintf(stderr, "ID: %d\n", vm->champ->id);
-		ft_fprintf(stderr, "NAME: %s\n", vm->champ->header.prog_name);
-		ft_fprintf(stderr, "PROG SIZE: %d\n", vm->champ->header.prog_size);
-		ft_fprintf(stderr, "COMMENT: \"%s\"\n\n", vm->champ->header.comment);
-		vm->champ = vm->champ->next;
-	}
-	ft_fprintf(stderr, "NUMBER OF PLAYERS: %d\n", vm->players_num);
-}
+
+t_op op_tab[17];
+
 
 int		main(int argc, char **argv)
 {
@@ -57,9 +48,14 @@ int		main(int argc, char **argv)
 
 
 	init_arena(vm);
+		// print_arena(vm->arena, vm->champ, vm->next_byte);
 	start(vm);
-	print_info(vm);
+	// print_info(vm);
 
+	// printf("OP_TAB: op_tab[3]= %d (%s)\n", op_tab[3].cycles_to_exec, "add");
+	
+	// int args[3] = {2, 3, 5};
+	
 	return (0);
 }
 
