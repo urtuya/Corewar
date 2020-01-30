@@ -19,10 +19,10 @@ typedef struct s_champ
 
 int main()
 {
-	t_champ kek;
+	int code = 106;
 
-	strcpy(kek.lol.prog_name, "lolkekcheburek");
-	printf("pro = %s\n", kek.lol.prog_name);
-
+	int q = 0b10;
+	int p = 0b11;
+	printf("%d\n", q & p);
 	return (0);
 }

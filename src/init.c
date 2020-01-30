@@ -17,7 +17,7 @@ t_vm	*init_vm(void)
 	vm->cursor = NULL;
 
 	vm->was_inspected = 0;
-
+	init_operations(vm);
 	return (vm);
 }
 
@@ -49,7 +49,6 @@ void	init_champs(int argc, char **argv, t_vm *vm)
 
 	malloc_err((champ = (t_champ*)malloc(sizeof(t_champ))), "init_champs");
 	vm->champ = champ;
-	vm->champ_head = vm->champ; //	THIS IS NOT GUT
 	i = 0;
 	while (i < argc)
 	{
@@ -64,7 +63,6 @@ void	init_champs(int argc, char **argv, t_vm *vm)
 		i++;
 	}
 	vm->next_byte = MEM_SIZE / vm->players_num;
-	vm->champ = vm->champ_head;
 }
 
 t_cursor	*create_cursor(t_cursor **cursor)
@@ -83,6 +81,9 @@ void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old)
 	new->id = ++vm->num_of_cursors;
 	new->carry = old->carry;
 	new->op_code = 0;
+	new->arg[0] = 0;
+	new->arg[1] = 0;
+	new->arg[2] = 0;
 	new->last_live_cycle_nbr = old->last_live_cycle_nbr;
 	new->cycles_before_op = 0;
 	new->cur_position = old->cur_position;
@@ -118,11 +119,15 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		new_curs->cycles_before_op = 0;
 		new_curs->cur_position = champ->start_from;
 		new_curs->bytes_to_next_op = 0;
-		ft_bzero(new_curs->r, 16);
+		ft_bzero(new_curs->arg, sizeof(new_curs->arg));
+		ft_bzero(new_curs->r, sizeof(new_curs->r));
+		// ft_bzero(new_curs->r, 16);
+		// ft_bzero(new_curs->arg, 3);
 		new_curs->r[0] = -champ->id;
-		new_curs->CHAMP_NAME = ft_strdup(champ->header.prog_name);
+		// new_curs->CHAMP_NAME = ft_strdup(champ->header.prog_name);
 		printf("NEW_CURS ID: %zu\n", new_curs->id);
 		champ = champ->next;
 	}
 	return (new_curs);
 }
+

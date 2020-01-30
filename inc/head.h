@@ -1,13 +1,13 @@
 #ifndef HEAD_H
 # define HEAD_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include "op.h"
-#include "../libft/inc/libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "op.h"
+# include "../libft/inc/libft.h"
 
 # define MAGIC_HEADER_SIZE 4
 # define NULL_SIZE 4
@@ -30,9 +30,9 @@
 # define LFORK 0x0f
 # define AFF 0x10
 
-# define IS_T_REG(x)  ((x == T_REG) ? 1 : 0)
-# define IS_t_IND(x) ((x == T_IND) ? 1 : 0)
-# define IS_T_DIR(x) ((x == T_DIR) ? 1 : 0)
+# define IS_REG(x) (REG_CODE == x ? 1 : 0)
+# define IS_IND(x) (IND_CODE == x ? 1 : 0)
+# define IS_DIR(x) (DIR_CODE == x ? 1 : 0)
 
 
 typedef struct	s_champ
@@ -53,6 +53,7 @@ typedef struct	s_cursor
 	int				last_live_cycle_nbr;
 	int				cycles_before_op; // num of cycles until op
 	size_t			cur_position; // addr of current cursor
+	int				arg[3];
 	int				bytes_to_next_op;
 	int				r[16];
 
@@ -80,15 +81,15 @@ typedef struct	s_op
 {
 	char	*name;
 	int		type; //01 10 11 type of arg
+	int		arg_num;
 	int		arg[3];
 	int		code;
 	int		cycles_to_exec;
-	char	*desc;
-	int		code_type_args;
+	int		code_type_args;// code of arguments types: 1 = exist, 0 - nonexist
 	int		size_of_t_dir; //  0=4, 1=2
 }				t_op;
 
-t_op			op_tab[17];
+typedef void	(*func);
 
 typedef struct	s_vm
 {
@@ -97,7 +98,6 @@ typedef struct	s_vm
 	t_champ			champs[4];
 	unsigned char	arena[MEM_SIZE];
 	t_fl			flag;
-	// t_arena			arena[MEM_SIZE];
 	int				was_inspected;
 	int				next_byte;
 	size_t			num_of_cursors;
@@ -107,13 +107,12 @@ typedef struct	s_vm
 	int				nbr_live;
 	int				cycles_to_die;
 	int				checks; // num of checks/inspection()
-	t_champ			*champ_head;
+	void			(*do_oper[16]);
 }				t_vm;
 
+t_op	op_tab[17];
 
 // typedef struct s_list
-#endif
-
 
 //------------------main.c
 
@@ -144,3 +143,10 @@ void	print_list_of_cursors(t_cursor *cursor);
 
 //------------------start.c
 void	start(t_vm *vm);
+
+
+//operations.c
+void	op_live(t_cursor *cursor, unsigned char *arena);
+
+
+#endif

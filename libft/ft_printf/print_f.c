@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_f.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 15:58:29 by vellery-          #+#    #+#             */
-/*   Updated: 2019/06/24 15:58:30 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/01/30 04:16:46 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,10 @@ void		set_f(t_arg *arg, va_list va, char **ptr)
 void		dotset(char *needed, int *len)
 {
 	char *tmp;
-	char *dot;
 
 	(*len)++;
 	tmp = ft_strdup(needed);
-	dot = ft_strdup(".");
 	ft_strdel(&needed);
-	needed = ft_strjoin(tmp, dot);
+	needed = ft_strjoin(tmp, ".");
 	ft_strdel(&tmp);
-	ft_strdel(&dot);
 }
