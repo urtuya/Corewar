@@ -45,6 +45,28 @@ void	print_arena(unsigned char *arena, t_champ *champ, int next_byte)
 	}
 }
 
+void	print_arena_2(unsigned char *arena)
+{
+	int i;
+	int j;
+	int k;
+
+	i = 0;
+	k = 0;
+	while (i < 64)
+	{
+		j = 0;
+		while (j < 64)
+		{
+			ft_printf("%02x  ", arena[k]);
+			j ++;
+			k++;
+		}
+		ft_printf("\n");
+		i++;
+	}
+}
+
 
 void	print_list_of_cursors(t_cursor *cursor)
 {
@@ -66,13 +88,15 @@ void	print_list_of_cursors(t_cursor *cursor)
 	}
 }
 
-// void	print_oper_codes(t_cursor *curr)
-// {
-// 	t_cursor *cursor;
+void	print_registers(int *registers)
+{
+	int i;
 
-// 	cursor = curr;
-// 	while (curr)
-// 	{
-// 		printf("");
-// 	}
-// }
+	i = 0;
+	while (i < 16)
+	{
+		ft_printf("r[%d] = %d  ", i + 1, registers[i]);
+		i++;
+	}
+	ft_printf("\n");
+}

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "limits.h"
 
 typedef struct					s_header
 {
@@ -19,10 +20,8 @@ typedef struct s_champ
 
 int main()
 {
-	int code = 106;
+	int a = -1;
 
-	int q = 0b10;
-	int p = 0b11;
-	printf("%d\n", q & p);
-	return (0);
+	printf("%#x\n", (a & 0xff000000));
+	return (0); 
 }

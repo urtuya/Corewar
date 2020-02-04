@@ -18,6 +18,7 @@ t_cursor *kill_single_cursor(t_cursor *cursor)
 	return (tmp);
 }
 
+// ALL FROM COOKBOOK 
 void	inspection(t_vm *vm, t_cursor *cursor)
 {
 	t_cursor *current;
@@ -54,12 +55,12 @@ int		check_arg_type(t_cursor *cursor)
 
 	i = 0;
 	ret = 1;
-	cursor->bytes_to_next_op = 1 + op_tab[cursor->op_code].code_type_args ? 1 : 0;
+	cursor->bytes_to_next_op = 1 + (op_tab[cursor->op_code].code_type_args ? 1 : 0);
 	while (i < op_tab[cursor->op_code].arg_num)
 	{
-		if ((cursor->arg[i] & op_tab[cursor->op_code].arg[i]) == 0)
+		if ((cursor->arg_type[i] & op_tab[cursor->op_code].arg[i]) == 0)
 			ret = 0;
-		cursor->bytes_to_next_op += size_arg_type(cursor->arg[i], cursor->op_code);
+		cursor->bytes_to_next_op += size_arg_type(cursor->arg_type[i], cursor->op_code);
 		i++;
 	}
 	ft_printf("%s", "\n\n");
@@ -86,24 +87,22 @@ int		check_registers(t_cursor *cursor, unsigned char *arena)
 
 	ft_printf("bytes_to_next_op = %d\n", cursor->bytes_to_next_op);
 	i = 0;
-	bytes_to_jmp = cursor->cur_position + 1 + op_tab[cursor->op_code].code_type_args ? 1 : 0;
-	ft_printf("bytes_to_jmp = %d\n", bytes_to_jmp); 
+	bytes_to_jmp = (cursor->cur_position + 1 + (op_tab[cursor->op_code].code_type_args ? 1 : 0)) % MEM_SIZE;
 	while (i < op_tab[cursor->op_code].arg_num)
 	{
-		if (IS_REG(cursor->arg[i]))
+		if (IS_REG(cursor->arg_type[i]))
 		{
 			reg = bin2int(arena + bytes_to_jmp, 1);
-			ft_printf("REG: %d\n", reg);
+			ft_printf("IS_REG: %d\n", reg);
 			if (reg < 1 || reg > 16)
 			{
 				ft_fprintf(stderr, "reg is not GUT\n");
 				return (0);
 			}
 		}
-		bytes_to_jmp += size_arg_type(cursor->arg[i], cursor->op_code);
+		bytes_to_jmp += size_arg_type(cursor->arg_type[i], cursor->op_code);
 		ft_printf("bytes_to_jmp = %d\n", bytes_to_jmp); 
 		i++;
 	}
-	
 	return (1);
 }

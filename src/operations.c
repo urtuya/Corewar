@@ -1,84 +1,80 @@
 #include "head.h"
 
+void	op_st(t_cursor *cursor, unsigned char *arena);
 
 void	op_live(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_LIVE\n");
+	ft_printf("{blue}OP_LIVE\n");
 }
 
 void	op_ld(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_LD\n");	
-}
-
-void	op_st(t_cursor *cursor, unsigned char *arena)
-{
-	ft_printf("OP_ST\n");
+	ft_printf("{blue}OP_LD\n");	
 }
 
 void	op_add(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_ADD\n");
+	ft_printf("{blue}OP_ADD\n");
 }
 
 void	op_sub(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_SUB\n");
+	ft_printf("{blue}OP_SUB\n");
 }
 
 void	op_and(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_AND\n");
+	ft_printf("{blue}OP_AND\n");
 }
 
 void	op_or(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_OR\n");
+	ft_printf("{blue}OP_OR\n");
 }
 
 void	op_xor(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_XOR");
+	ft_printf("{blue}OP_XOR");
 }
 
 void	op_zjmp(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_ZJMP\n");
+	ft_printf("{blue}OP_ZJMP\n");
 }
 
 void	op_ldi(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_LDI\n");
+	ft_printf("{blue}OP_LDI\n");
 }
 
 void	op_sti(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_STI\n");
+	ft_printf("{blue}OP_STI\n");
 }
 
 void	op_fork(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_FORK\n");
+	ft_printf("{blue}OP_FORK\n");
 }
 
 void	op_lld(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_LLD\n");
+	ft_printf("{blue}OP_LLD\n");
 }
 
 void	op_lldi(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_LLDI\n");
+	ft_printf("{blue}OP_LLDI\n");
 }
 
 void	op_lfork(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_LFORK\n");
+	ft_printf("{blue}OP_LFORK\n");
 }
 
 void	op_aff(t_cursor *cursor, unsigned char *arena)
 {
-	ft_printf("OP_AFF\n");
+	ft_printf("{blue}OP_AFF\n");
 }
 
 void	init_operations(t_vm *vm)

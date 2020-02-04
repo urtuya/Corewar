@@ -81,9 +81,9 @@ void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old)
 	new->id = ++vm->num_of_cursors;
 	new->carry = old->carry;
 	new->op_code = 0;
-	new->arg[0] = 0;
-	new->arg[1] = 0;
-	new->arg[2] = 0;
+	new->arg_type[0] = 0;
+	new->arg_type[1] = 0;
+	new->arg_type[2] = 0;
 	new->last_live_cycle_nbr = old->last_live_cycle_nbr;
 	new->cycles_before_op = 0;
 	new->cur_position = old->cur_position;
@@ -119,7 +119,7 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		new_curs->cycles_before_op = 0;
 		new_curs->cur_position = champ->start_from;
 		new_curs->bytes_to_next_op = 0;
-		ft_bzero(new_curs->arg, sizeof(new_curs->arg));
+		ft_bzero(new_curs->arg_type, sizeof(new_curs->arg_type));
 		ft_bzero(new_curs->r, sizeof(new_curs->r));
 		// ft_bzero(new_curs->r, 16);
 		// ft_bzero(new_curs->arg, 3);

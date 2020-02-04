@@ -33,7 +33,7 @@
 # define IS_REG(x) (REG_CODE == x ? 1 : 0)
 # define IS_IND(x) (IND_CODE == x ? 1 : 0)
 # define IS_DIR(x) (DIR_CODE == x ? 1 : 0)
-
+# define ADDR(x) (x % MEM_SIZE)
 
 typedef struct	s_champ
 {
@@ -53,7 +53,7 @@ typedef struct	s_cursor
 	int				last_live_cycle_nbr;
 	int				cycles_before_op; // num of cycles until op
 	size_t			cur_position; // addr of current cursor
-	int				arg[3];
+	int				arg_type[3];
 	int				bytes_to_next_op;
 	int				r[16];
 
@@ -67,6 +67,7 @@ typedef struct	s_fl
 	int	dump;	//32 octets
 	int	d;		//64 octets
 	int	n;
+	int	aff;	//print char
 }				t_fl;
 
 typedef struct	s_arena
@@ -95,7 +96,6 @@ typedef struct	s_vm
 {
 	int				players_num;
 	t_champ			*champ;
-	t_champ			champs[4];
 	unsigned char	arena[MEM_SIZE];
 	t_fl			flag;
 	int				was_inspected;
