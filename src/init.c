@@ -15,7 +15,6 @@ t_vm	*init_vm(void)
 	vm->checks = 0; 
 	vm->num_of_cursors = 0;
 	vm->cursor = NULL;
-
 	vm->was_inspected = 0;
 	init_operations(vm);
 	return (vm);
@@ -71,12 +70,13 @@ t_cursor	*create_cursor(t_cursor **cursor)
 
 	malloc_err((new = (t_cursor*)malloc(sizeof(t_cursor))), "create_cursor");
 	new->next = *cursor;
+	(*cursor)->head = new;
 	(*cursor)->prev = new;
 	return (new);
 	
 }
 
-void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old)
+void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old, int addr)
 {
 	new->id = ++vm->num_of_cursors;
 	new->carry = old->carry;
@@ -86,9 +86,9 @@ void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old)
 	new->arg_type[2] = 0;
 	new->last_live_cycle_nbr = old->last_live_cycle_nbr;
 	new->cycles_before_op = 0;
-	new->cur_position = old->cur_position;
+	new->cur_position = addr;
 	new->bytes_to_next_op = 0;
-	ft_memcpy(new->r, old->r, 16);
+	ft_memcpy(new->r, old->r, sizeof(new->r));
 	new->CHAMP_NAME = ft_strdup(old->CHAMP_NAME);
 	old->prev = new;
 }
@@ -107,6 +107,7 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		if (!new_curs)
 		{
 			new_curs = (t_cursor*)malloc(sizeof(t_cursor));
+			new_curs->head = new_curs;
 			new_curs->next = NULL;
 			new_curs->prev = NULL;
 		}

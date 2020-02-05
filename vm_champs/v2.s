@@ -1,7 +1,7 @@
 .name		"Octobre Rouge V4.2"
 .comment	"And the winner is ..."
 
-		ld -19, r2
+		ld %0, r2
 		st	r2,19
 		ld	%0,r15
 		fork	%:xxx

@@ -48,7 +48,9 @@ int		main(int argc, char **argv)
 
 
 	init_arena(vm);
-		print_arena(vm->arena, vm->champ, vm->next_byte);
+	// print_arena(vm->arena, vm->champ, vm->next_byte);
+	// set_to_arena(vm->arena + 4094, 12);
+	// print_arena_2(vm->arena, 4094, 4100);
 	start(vm);
 	// print_info(vm);
 

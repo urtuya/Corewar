@@ -107,7 +107,7 @@ typedef struct	s_vm
 	int				nbr_live;
 	int				cycles_to_die;
 	int				checks; // num of checks/inspection()
-	void			(*do_oper[16]);
+	void			(*do_oper[16])(t_cursor*, unsigned char*, int*);
 }				t_vm;
 
 t_op	op_tab[17];
@@ -125,7 +125,7 @@ void	malloc_err(void *addr, char *func);
 t_vm	*init_vm(void);
 void	add_champ(t_champ **champ_list, t_champ *champ_to_add);
 void	init_champs(int argc, char **argv, t_vm *vm);
-void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old);
+void		init_cursors(t_vm *vm, t_cursor *new_cur, t_cursor *old, int addr);
 t_cursor	*init_first_cursors(t_vm *vm);
 
 //------------------validation.c
@@ -146,7 +146,6 @@ void	start(t_vm *vm);
 
 
 //operations.c
-void	op_live(t_cursor *cursor, unsigned char *arena);
 
 
 #endif

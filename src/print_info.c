@@ -45,7 +45,7 @@ void	print_arena(unsigned char *arena, t_champ *champ, int next_byte)
 	}
 }
 
-void	print_arena_2(unsigned char *arena)
+void	print_arena_2(unsigned char *arena, int addr, int len)
 {
 	int i;
 	int j;
@@ -58,7 +58,13 @@ void	print_arena_2(unsigned char *arena)
 		j = 0;
 		while (j < 64)
 		{
-			ft_printf("%02x  ", arena[k]);
+			if (k == addr)
+			{
+				ft_printf("{red}%02x  ", arena[k]);
+				addr += (addr < len - 1 ? 1 : 0);
+			}
+			else
+				ft_printf("%02x  ", arena[k]);
 			j ++;
 			k++;
 		}

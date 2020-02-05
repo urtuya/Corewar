@@ -1,5 +1,5 @@
 .name	"Leeloo"
 .comment "Multipass"
 	
-st r1, 19
+st r1, 4094
 
