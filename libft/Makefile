@@ -28,7 +28,7 @@ SRC_PRINTF_DIR = ft_printf/
 SRC_LIB_DIR = src/
 SRC = $(addprefix $(SRC_LIB_DIR), $(LIB_CFILES)) $(addprefix $(SRC_PRINTF_DIR), $(PRINTF_CFILES))
 OBJ =  $(LIB_CFILES:%.c=%.o) $(PRINTF_CFILES:%.c=%.o)
-FLAGGS = -Wall -Wextra -Werror
+FLAGGS = #-Wall -Wextra -Werror
 
 
 $(NAME):

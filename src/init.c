@@ -122,6 +122,7 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		new_curs->bytes_to_next_op = 0;
 		ft_bzero(new_curs->arg_type, sizeof(new_curs->arg_type));
 		ft_bzero(new_curs->r, sizeof(new_curs->r));
+		printf("%d %d %d\n", new_curs->r[0], new_curs->r[1], new_curs->r[2]);
 		// ft_bzero(new_curs->r, 16);
 		// ft_bzero(new_curs->arg, 3);
 		new_curs->r[0] = -champ->id;

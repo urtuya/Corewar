@@ -2,9 +2,9 @@
 
 static int		get_stream(FILE *stream)
 {
-	if (stream == stdin)
+	if (stream == STDIN_FILENO)
 		return (0);
-	else if (stream == stdout)
+	else if (stream == STDOUT_FILENO)
 		return (1);
 	else
 		return (2);
