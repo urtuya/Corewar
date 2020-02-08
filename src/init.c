@@ -70,7 +70,6 @@ t_cursor	*create_cursor(t_cursor **cursor)
 
 	malloc_err((new = (t_cursor*)malloc(sizeof(t_cursor))), "create_cursor");
 	new->next = *cursor;
-	(*cursor)->head = new;
 	(*cursor)->prev = new;
 	return (new);
 	
@@ -107,7 +106,6 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		if (!new_curs)
 		{
 			new_curs = (t_cursor*)malloc(sizeof(t_cursor));
-			new_curs->head = new_curs;
 			new_curs->next = NULL;
 			new_curs->prev = NULL;
 		}

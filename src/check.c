@@ -21,24 +21,9 @@ t_cursor *kill_single_cursor(t_cursor *cursor)
 // ALL FROM COOKBOOK 
 void	inspection(t_vm *vm, t_cursor *cursor)
 {
-	t_cursor *current;
+	t_cursor *curr;
 
-	if (vm->cycles_to_die <= 0)
-	{
-		cursor = kill_cursors(cursor); // 1 for 1st reason, 2 for 2nd reason(kill all cursors)
-	}
-	else
-	{
-		current = cursor;
-		while (current)
-		{
-			if (vm->num_of_cycles - cursor->last_live_cycle_nbr >= vm->cycles_to_die)
-				current = kill_single_cursor(current);
-			else
-				current = current->next;
-		}
-		cursor = current;
-	}
+	ft_printf("{cyan}INSPECTION HERE\n");
 	if (vm->nbr_live >= NBR_LIVE || vm->checks == MAX_CHECKS)
 	{
 		vm->cycles_to_die -= CYCLE_DELTA;

@@ -94,13 +94,15 @@ void	start(t_vm *vm)
 				count++;
 				if (try_exec_oper(cursor, vm->arena))					// get ready before exec_oper
 				{
-					vm->do_oper[cursor->op_code](cursor, vm/*vm->arena*/, &vm->num_of_cursors);		 // do_oper is operation №op_code from operations.c YOU NEED FULL VM FOR LIVE AND OTHER OPERS, NOT JUST ARENA
+					vm->do_oper[cursor->op_code](cursor, vm);		 // do_oper is operation №op_code from operations.c YOU NEED FULL VM FOR LIVE AND OTHER OPERS, NOT JUST ARENA
 			
 				}
 				cursor->cur_position = (cursor->cur_position + cursor->bytes_to_next_op) % MEM_SIZE;
-
 				if (count == 6)
+				{
+					print_list_of_cursors(vm->cursor);
 					exit(0);
+				}
 			}
 			cursor = cursor->next;
 		}
