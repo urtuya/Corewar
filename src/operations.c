@@ -195,7 +195,7 @@ void	op_ldi(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 	args[1] = get_args(cursor, arena, 1, &move);
 	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
 	cursor->r[to] = bin2int(arena + ADDR(cursor->cur_position + (args[0] + args[1]) % IDX_MOD), REG_SIZE);
-	printf("WRITING %d TO R[%d] FROM %d!\n", cursor->r[to], to, cursor->cur_position + (args[0] + args[1]) %IDX_MOD);
+	printf("WRITING %d TO R[%d] FROM %d!\n", cursor->r[to], to, cursor->cur_position + (args[0] + args[1]) % IDX_MOD);
 	ft_printf("{blue}OP_LDI\n");
 }
 
@@ -222,33 +222,60 @@ void	op_fork(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num);
 
 void	op_lld(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
+	int value;
+	int	arg2;
+	int	move;
 	unsigned char	*arena;
 
 	arena = vm->arena;
+	if (IS_DIR(cursor->arg_type[0]))
+	{
+		arg2 = *(arena + ADDR(cursor->cur_position + 2 + DIR_SIZE));
+		value = bin2int(arena + ADDR(cursor->cur_position + 2), DIR_SIZE);
+		cursor->r[arg2 - 1] = value;
+		cursor->carry = !value ? 1 : 0;
+		printf("ASSIGNING %d TO R[%d]\n", value, arg2 - 1);
+	}
+	else if (IS_IND(cursor->arg_type[0]))
+	{
+		arg2 = *(arena + cursor->cur_position + 2 + IND_SIZE);
+		value = cursor->cur_position + (bin2int(arena + cursor->cur_position + 2, IND_SIZE));
+		cursor->r[arg2 - 1] = bin2int(arena + value, 4);
+		cursor->carry = !cursor->r[arg2 - 1] ? 1 : 0;
+		printf("ASSIGNING %d TO R[%d]\n", bin2int(arena + value, 4), arg2 - 1);
+	}
+	else
+		ft_printf("NONONONONONONON\n");
 	ft_printf("{blue}OP_LLD\n");
 }
 
 void	op_lldi(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
 	unsigned char	*arena;
+	int	move;
+	int	args[2];
+	int	to;
 
 	arena = vm->arena;
+	move = 2;
+	args[0] = get_args(cursor, arena, 0, &move);
+	args[1] = get_args(cursor, arena, 1, &move);
+	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
+	cursor->r[to] = bin2int(arena + ADDR(cursor->cur_position + args[0] + args[1]), REG_SIZE);
+	printf("WRITING %d TO R[%d] FROM %d!\n", cursor->r[to], to, cursor->cur_position + args[0] + args[1]);
 	ft_printf("{blue}OP_LLDI\n");
-}
-
-void	op_lfork(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
-{
-	unsigned char	*arena;
-
-	arena = vm->arena;
-	ft_printf("{blue}OP_LFORK\n");
 }
 
 void	op_aff(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
 	unsigned char	*arena;
+	int	move;
+	int	arg;
 
 	arena = vm->arena;
+	move = 2;
+	arg = get_args(cursor, arena, 0, &move);
+	ft_putchar_fd((char)arg, STDOUT_FILENO);
 	ft_printf("{blue}OP_AFF\n");
 }
 
@@ -300,13 +327,14 @@ void	op_ld(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
 	int value;
 	int	arg2;
-	int	move;
+//	int	move;
 	unsigned char	*arena;
 
 	arena = vm->arena;
 	// print_registers(cursor->r);
 
 	// COMMENT FOR PREVIOUS VERSION
+	/*
 	move = 2;
 	value = get_args(cursor, arena, 0, &move);
 	arg2 = *(arena + ADDR(cursor->cur_position + move));
@@ -315,8 +343,8 @@ void	op_ld(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 	else
 		cursor->carry = 0;
 	printf("ASSIGNING %d TO R[%d], CARRY = %d\n", value, arg2 - 1, cursor->carry);
+	*/
 
-	/* // UNCOMMENT FOR PREVIOUS VERSION
 	if (IS_DIR(cursor->arg_type[0]))
 	{
 		arg2 = *(arena + ADDR(cursor->cur_position + 2 + DIR_SIZE));
@@ -335,7 +363,6 @@ void	op_ld(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 	}
 	else
 		ft_printf("NONONONONONONON\n");
-	*/ // UNCOMMENT FOR PREVIOUS VERSION
 
 	// ft_printf("CARRY: %d\n", cursor->carry);
 	// print_registers(cursor->r);
@@ -355,9 +382,9 @@ void	init_operations(t_vm *vm)
 	vm->do_oper[8] = op_zjmp; // DONE (DOUBLECHECK THIS AND BIN2INT WITH NEGATIVES)
 	vm->do_oper[9] = op_ldi; // DONE (OMG IM STUPID)
 	vm->do_oper[10] = op_sti; // DONE (OMG IM STUPID * 2)
-	vm->do_oper[11] = op_fork;
-	vm->do_oper[12] = op_lld;
-	vm->do_oper[13] = op_lldi;
-	vm->do_oper[14] = op_lfork;
-	vm->do_oper[15] = op_aff;
+	vm->do_oper[11] = op_fork; // DONE (DOUBLECHECK)
+	vm->do_oper[12] = op_lld; // DONE (DOUBLECHECK)
+	vm->do_oper[13] = op_lldi; // DONE (DOUBLECHECK)
+	vm->do_oper[14] = op_lfork; // DONE (DOUBLECHECK)
+	vm->do_oper[15] = op_aff; // DONE
 }
