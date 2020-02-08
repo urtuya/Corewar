@@ -234,7 +234,7 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 
 	arena = vm->arena;
 	ft_printf("{blue}OP_FORK\n");
-	addr = bin2int(arena + ADDR(cursor->cur_position + 1), 2) % IDX_MOD; // size of T_DIR = 2
+	addr = bin2int(arena + ADDR(cursor->cur_position + 1), 2); // size of T_DIR = 2
 	malloc_err((add = (t_cursor*)malloc(sizeof(t_cursor))), "op_fork");
 	vm->cursor->prev = add;
 	add->next = vm->cursor;
@@ -243,8 +243,8 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 	ft_memcpy(add->r, cursor->r, sizeof(cursor->r));
 	add->carry = cursor->carry;
 	add->last_live_cycle_nbr = cursor->last_live_cycle_nbr;
-	add->cur_position = addr;
-	ft_printf("new curs ID: %d\n", add->id);
+	add->cur_position = cursor->cur_position + (addr % IDX_MOD);
+	ft_printf("new curs ID: %d\nCURS POS %d\n", add->id, add->cur_position);
 }
 
 void	op_lfork(t_cursor *cursor, t_vm *vm)
