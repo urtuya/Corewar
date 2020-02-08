@@ -7,7 +7,7 @@ void	get_oper_code(t_cursor *cursor, unsigned char *arena)
 	if (cursor->cycles_before_op == 0)
 	{
 		cursor->op_code = arena[cursor->cur_position] - 1;
-		if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
+		if (cursor->op_code >= 0 && cursor->op_code <= 0x9)
 		{
 			count = 0;
 			ft_printf("OPER: %s\n", op_tab[cursor->op_code].name);
@@ -18,6 +18,7 @@ void	get_oper_code(t_cursor *cursor, unsigned char *arena)
 			count++;
 			cursor->cycles_before_op = 0;
 			ft_printf("OPCODE IS BAD count: %d\n", count);
+			printf("OPCODE IS %d\n", cursor->op_code);
 		}
 	}
 }
@@ -30,7 +31,7 @@ void	decrease_cycle_before_op(t_cursor *cursor)
 
 int		try_exec_oper(t_cursor *cursor, unsigned char *arena) // 	NEED CHECK FOR EVERY OPERATION
 {
-	if (!(cursor->op_code >= 0x01 && cursor->op_code <= 0x10))
+	if (!(cursor->op_code >= 0 && cursor->op_code <= 0x9))
 	{
 		ft_printf("BAD OPCODE: pos + 1\n");
 		cursor->cur_position = (cursor->cur_position + 1) % MEM_SIZE;
@@ -93,7 +94,7 @@ void	start(t_vm *vm)
 				count++;
 				if (try_exec_oper(cursor, vm->arena))					// get ready before exec_oper
 				{
-					vm->do_oper[cursor->op_code](cursor, vm->arena, &vm->num_of_cursors);		 // do_oper is operation №op_code from operations.c
+					vm->do_oper[cursor->op_code](cursor, vm/*vm->arena*/, &vm->num_of_cursors);		 // do_oper is operation №op_code from operations.c YOU NEED FULL VM FOR LIVE AND OTHER OPERS, NOT JUST ARENA
 			
 				}
 				cursor->cur_position = (cursor->cur_position + cursor->bytes_to_next_op) % MEM_SIZE;

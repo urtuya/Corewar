@@ -1,10 +1,12 @@
 #include "head.h"
 
-void	op_fork(t_cursor *cursor, unsigned char *arena, int *num)
+void	op_fork(t_cursor *cursor, t_vm *vm,/*unsigned char *arena,*/ int *num)
 {
 	t_cursor *add;
 	int	addr;
+	unsigned char	*arena;
 
+	arena = vm->arena;
 	ft_printf("{blue}OP_FORK\n");
 	addr = bin2int(arena + ADDR(cursor->cur_position + 1), 2) % IDX_MOD; // size of T_DIR = 2
 	malloc_err((add = (t_cursor*)malloc(sizeof(t_cursor))), "op_fork");

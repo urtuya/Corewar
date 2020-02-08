@@ -107,7 +107,7 @@ typedef struct	s_vm
 	int				nbr_live;
 	int				cycles_to_die;
 	int				checks; // num of checks/inspection()
-	void			(*do_oper[16])(t_cursor*, unsigned char*, int*);
+	void			(*do_oper[16])(t_cursor*, struct s_vm*, int*);//unsigned char*, int*);
 }				t_vm;
 
 t_op	op_tab[17];
