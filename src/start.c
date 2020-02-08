@@ -7,7 +7,7 @@ void	get_oper_code(t_cursor *cursor, unsigned char *arena)
 	if (cursor->cycles_before_op == 0)
 	{
 		cursor->op_code = arena[cursor->cur_position] - 1;
-		if (cursor->op_code >= 0 && cursor->op_code <= 0x9)
+		if (cursor->op_code >= 0 && cursor->op_code <= 0xF)
 		{
 			count = 0;
 			ft_printf("OPER: %s\n", op_tab[cursor->op_code].name);
@@ -31,7 +31,7 @@ void	decrease_cycle_before_op(t_cursor *cursor)
 
 int		try_exec_oper(t_cursor *cursor, unsigned char *arena) // 	NEED CHECK FOR EVERY OPERATION
 {
-	if (!(cursor->op_code >= 0 && cursor->op_code <= 0x9))
+	if (!(cursor->op_code >= 0 && cursor->op_code <= 0xF))
 	{
 		ft_printf("BAD OPCODE: pos + 1\n");
 		cursor->cur_position = (cursor->cur_position + 1) % MEM_SIZE;
@@ -99,7 +99,7 @@ void	start(t_vm *vm)
 				}
 				cursor->cur_position = (cursor->cur_position + cursor->bytes_to_next_op) % MEM_SIZE;
 
-				if (count == 4)
+				if (count == 6)
 					exit(0);
 			}
 			cursor = cursor->next;

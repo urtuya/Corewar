@@ -36,7 +36,6 @@ void	op_add(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 	else
 		cursor->carry = 0;
 	ft_printf("{blue}OP_ADD\n%d %d\n", cursor->carry, sum);
-	
 }
 
 void	op_sub(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
@@ -60,6 +59,7 @@ void	op_sub(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 
 int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 {
+	// USE IT TO GET ARGS (EXAMPLE BELOW IN OP_AND FUNCTION AND OTHERS)
 	int	ret;
 	int	size;
 	
@@ -185,16 +185,35 @@ void	op_zjmp(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 void	op_ldi(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
 	unsigned char	*arena;
+	int	move;
+	int	args[2];
+	int	to;
 
 	arena = vm->arena;
+	move = 2;
+	args[0] = get_args(cursor, arena, 0, &move);
+	args[1] = get_args(cursor, arena, 1, &move);
+	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
+	cursor->r[to] = bin2int(arena + ADDR(cursor->cur_position + (args[0] + args[1]) % IDX_MOD), REG_SIZE);
+	printf("WRITING %d TO R[%d] FROM %d!\n", cursor->r[to], to, cursor->cur_position + (args[0] + args[1]) %IDX_MOD);
 	ft_printf("{blue}OP_LDI\n");
 }
 
 void	op_sti(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
 	unsigned char	*arena;
+	int	args[3];
+	int	move;
+	int	addr;
 
 	arena = vm->arena;
+	move = 2;
+	args[0] = get_args(cursor, arena, 0, &move);
+	args[1] = get_args(cursor, arena, 1, &move);
+	args[2] = get_args(cursor, arena, 2, &move);
+	addr = ADDR(cursor->cur_position + (args[1] + args[2]) % IDX_MOD);
+	set_to_arena(arena, addr, args[0]);
+	printf("PASTING %d TO ADDR %d\n", args[0], addr);
 	ft_printf("{blue}OP_STI\n");
 }
 
@@ -246,14 +265,16 @@ void	op_st(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
 	int		addr;
 	int		arg[2];
+	int		move;
 	unsigned char	*arena;
 
 	arena = vm->arena;
 
 	ft_printf("{blue}OP_ST\n");
 	// ft_printf();
-	arg[0] = arena[ADDR(cursor->cur_position + 2)];
 	
+	arg[0] = arena[ADDR(cursor->cur_position + 2)];
+	move = 3;
 	if (IS_REG(cursor->arg_type[1]))
 	{
 		// print_registers(cursor->r);
@@ -267,6 +288,7 @@ void	op_st(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 		arg[1] = bin2int(arena + cursor->cur_position + 3, IND_SIZE);
 		addr = cursor->cur_position + (arg[1] % IDX_MOD);
 		ft_printf("{red}arg[1] = %d\n", arg[1] % IDX_MOD);
+		printf("WRITING TO %d\n", cursor->cur_position + (arg[1] % IDX_MOD));
 		set_to_arena(arena, addr, cursor->r[arg[0] - 1]);
 		print_arena_2(arena, addr, addr + 4);
 	}
@@ -278,12 +300,23 @@ void	op_ld(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 {
 	int value;
 	int	arg2;
+	int	move;
 	unsigned char	*arena;
 
 	arena = vm->arena;
-
-	ft_printf("{blue}OP_LD\n");	
 	// print_registers(cursor->r);
+
+	// COMMENT FOR PREVIOUS VERSION
+	move = 2;
+	value = get_args(cursor, arena, 0, &move);
+	arg2 = *(arena + ADDR(cursor->cur_position + move));
+	if (!(cursor->r[arg2 - 1] = value))
+		cursor->carry = 1;
+	else
+		cursor->carry = 0;
+	printf("ASSIGNING %d TO R[%d], CARRY = %d\n", value, arg2 - 1, cursor->carry);
+
+	/* // UNCOMMENT FOR PREVIOUS VERSION
 	if (IS_DIR(cursor->arg_type[0]))
 	{
 		arg2 = *(arena + ADDR(cursor->cur_position + 2 + DIR_SIZE));
@@ -302,8 +335,11 @@ void	op_ld(t_cursor *cursor, t_vm *vm/*unsigned char *arena*/, int *num)
 	}
 	else
 		ft_printf("NONONONONONONON\n");
+	*/ // UNCOMMENT FOR PREVIOUS VERSION
+
 	// ft_printf("CARRY: %d\n", cursor->carry);
 	// print_registers(cursor->r);
+	ft_printf("{blue}OP_LD\n");	
 }
 
 void	init_operations(t_vm *vm)
@@ -317,11 +353,11 @@ void	init_operations(t_vm *vm)
 	vm->do_oper[6] = op_or; // DONE
 	vm->do_oper[7] = op_xor; // DONE
 	vm->do_oper[8] = op_zjmp; // DONE (DOUBLECHECK THIS AND BIN2INT WITH NEGATIVES)
-	vm->do_oper[9] = op_ldi; // TBD
-	vm->do_oper[10] = op_sti; // TBD
-	vm->do_oper[11] = op_fork; // TBD
-	vm->do_oper[12] = op_lld; // TBD
-	vm->do_oper[13] = op_lldi; // TBD
-	vm->do_oper[14] = op_lfork; // TBD
-	vm->do_oper[15] = op_aff; // TBD
+	vm->do_oper[9] = op_ldi; // DONE (OMG IM STUPID)
+	vm->do_oper[10] = op_sti; // DONE (OMG IM STUPID * 2)
+	vm->do_oper[11] = op_fork;
+	vm->do_oper[12] = op_lld;
+	vm->do_oper[13] = op_lldi;
+	vm->do_oper[14] = op_lfork;
+	vm->do_oper[15] = op_aff;
 }
