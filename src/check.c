@@ -21,20 +21,19 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 			vm->are_alive--;
 			if (curr == vm->cursor)
 			{
-				vm->cursor = curr->next;
-				free(curr);
-				curr = NULL;
+				vm->cursor = vm->cursor->next;
+				if (vm->cursor)
+					vm->cursor->prev = NULL;
 			}
-			if (curr->prev)
+			else
 			{
-				tmp = curr;
-				curr = curr->next;
-				tmp->prev->next = tmp->next;
-				if (tmp->next)
-					tmp->next->prev = tmp->prev;
-				free(tmp);
-				tmp = NULL;
+				curr->next->prev = curr->prev;
+				if (curr->prev)
+					curr->prev->next = curr->next;
 			}
+			tmp = curr->next;
+			free(curr);
+			curr = tmp;
 		}
 		else
 			curr = curr->next;
