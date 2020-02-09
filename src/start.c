@@ -6,6 +6,7 @@ void	get_oper_code(t_cursor *cursor, unsigned char *arena)
 
 	if (cursor->cycles_before_op == 0)
 	{
+		ft_printf("id = %d  cur_position = %d\n",cursor->id, cursor->cur_position);
 		cursor->op_code = arena[cursor->cur_position] - 1;
 		if (cursor->op_code >= 0 && cursor->op_code <= 0xF)
 		{
@@ -85,10 +86,15 @@ void	start(t_vm *vm)
 		while (cursor)
 		{   //----------IN CYCLE
 			// ft_printf("cursor ID: %d\n", cursor->id);
+			// if (cursor->id == 28)
+			// {
+			// 	ft_printf("CUR_POS OF 28CURSOR = %d\n", cursor->cur_position);
+			// 	exit(0);
+			// }
 			get_oper_code(cursor, vm->arena);
 			decrease_cycle_before_op(cursor);
-			ft_printf("NUM OF CYCLES: %d\n", vm->num_of_cycles);
-			ft_printf("CURRENT CURSOR CYCLES BEFORE OPERATION: %d\n", cursor->cycles_before_op);
+			// ft_printf("NUM OF CYCLES: %d\n", vm->num_of_cycles);
+			// ft_printf("CURRENT CURSOR CYCLES BEFORE OPERATION: %d\n", cursor->cycles_before_op);
 			if (cursor->cycles_before_op == 0)
 			{
 				count++;
@@ -97,13 +103,17 @@ void	start(t_vm *vm)
 					vm->do_oper[cursor->op_code](cursor, vm);		 // do_oper is operation №op_code from operations.c YOU NEED FULL VM FOR LIVE AND OTHER OPERS, NOT JUST ARENA
 			
 				}
+
 				cursor->cur_position = (cursor->cur_position + cursor->bytes_to_next_op) % MEM_SIZE;
-				if (count == 6)
-				{
-					print_list_of_cursors(vm->cursor);
-					exit(0);
-				}
+				// if (count == 6)
+				// {
+				// 	print_list_of_cursors(vm->cursor);
+				// 	exit(0);
+				// }
 			}
+			// ft_printf("");
+			ft_printf("ID: %d      CUR_POSITION: %d\n", cursor->id, cursor->cur_position);
+			
 			cursor = cursor->next;
 		}
 		// CHECKS AFTER CYCLES_TO_DIE
@@ -111,5 +121,7 @@ void	start(t_vm *vm)
 			|| vm->cycles_to_die <= 0)
 			inspection(vm, vm->cursor);
 		cursor = vm->cursor;
+		if (!cursor)
+			return ;
 	}
 }

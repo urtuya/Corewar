@@ -1,35 +1,52 @@
 #include "head.h"
 
-t_cursor *kill_cursors(t_cursor *cursor)
-{
-	return (NULL);
-}
+// t_cursor *kill_cursors(t_cursor *cursor)
+// {
+// 	return (NULL);
+// }
 
-t_cursor *kill_single_cursor(t_cursor *cursor)
-{
-	t_cursor *tmp;
+// t_cursor *kill_single_cursor(t_cursor *cursor)
+// {
+// 	t_cursor *tmp;
 
-	tmp = cursor->next;
-	if (cursor->prev)
-		cursor->prev->next = cursor->next;
-	ft_strdel(&cursor->CHAMP_NAME);
-	free(cursor);
-	cursor = NULL;
-	return (tmp);
-}
+// 	tmp = cursor->next;
+// 	if (cursor->prev)
+// 		cursor->prev->next = cursor->next;
+// 	ft_strdel(&cursor->CHAMP_NAME);
+// 	free(cursor);
+// 	cursor = NULL;
+// 	return (tmp);
+// }
 
 // ALL FROM COOKBOOK 
 void	inspection(t_vm *vm, t_cursor *cursor)
 {
 	t_cursor *curr;
+	t_cursor *tmp;
 
 	ft_printf("{cyan}INSPECTION HERE\n");
+	curr = vm->cursor;
+	while (curr)
+	{
+		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= ft_max(0, vm->cycles_to_die))
+		{
+			curr->prev->next = curr->next;
+			if (curr->CHAMP_NAME)
+				ft_strdel(&curr->CHAMP_NAME);
+			curr = tmp;
+			curr = curr->next;
+			free(tmp);
+			tmp = NULL;
+		}
+		else
+			curr = curr->next;
+	}
 	if (vm->nbr_live >= NBR_LIVE || vm->checks == MAX_CHECKS)
 	{
 		vm->cycles_to_die -= CYCLE_DELTA;
 		vm->checks = 0;
 	}
-	vm->was_inspected = 1;
+	// vm->was_inspected = 1;
 	vm->checks++;
 	
 }

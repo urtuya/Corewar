@@ -78,13 +78,15 @@ void	print_list_of_cursors(t_cursor *cursor)
 {
 	t_cursor *cursors;
 
+	ft_printf("LIST OF CURSORS\n");
 	cursors = cursor;
 	while (cursor)
 	{
 		ft_printf("ID: %d\n", cursor->id);
-		ft_printf("OP_CODE: %d\n", cursor->op_code);
-		ft_printf("CYCLES TO EXEC: %d\n", cursor->cycles_before_op);
-		ft_printf("{red}CHAMP: %s\n", cursor->CHAMP_NAME);
+		ft_printf("CUR_POS: %d\n", cursor->cur_position);
+		// ft_printf("OP_CODE: %d\n", cursor->op_code);
+		// ft_printf("CYCLES TO EXEC: %d\n", cursor->cycles_before_op);
+		// ft_printf("{red}CHAMP: %s\n", cursor->CHAMP_NAME);
 		if (cursor->next)
 		{
 			ft_printf("|\n");

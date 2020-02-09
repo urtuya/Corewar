@@ -57,7 +57,8 @@ int		main(int argc, char **argv)
 	// printf("OP_TAB: op_tab[3]= %d (%s)\n", op_tab[3].cycles_to_exec, "add");
 	
 	// int args[3] = {2, 3, 5};
-	
+	print_list_of_cursors(vm->cursor);
+
 	return (0);
 }
 

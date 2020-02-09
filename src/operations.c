@@ -74,7 +74,7 @@ int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 	
 	if (IS_REG(cursor->arg_type[i]))
 	{
-		printf("ITS REG!\n");
+		// printf("ITS REG!\n");
 		ret = cursor->r[bin2int(arena + ADDR(cursor->cur_position + *move), 1) - 1];
 		// ret = cursor->r[*(arena + ADDR(cursor->cur_position + *move))];
 		*move += 1;
@@ -82,13 +82,13 @@ int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 	if (IS_DIR(cursor->arg_type[i]))
 	{
 		size = op_tab[cursor->op_code].size_of_t_dir ? 2 : 4;
-		printf("ITS DIR!\n");
+		// printf("ITS DIR!\n");
 		ret = bin2int(arena + ADDR(cursor->cur_position + *move), size);
 		*move += size;
 	}
 	if (IS_IND(cursor->arg_type[i]))
 	{
-		printf("ITS IND!\n");
+		// printf("ITS IND!\n");
 		/*
 		ret = *(arena + ADDR(cursor->cur_position + *move));
 		ret = *(arena + ADDR(cursor->cur_position + (ret % IDX_MOD)));
@@ -121,7 +121,7 @@ void	op_and(t_cursor *cursor, t_vm *vm)
 	else
 		cursor->carry = 0;
 	// ft_printf("OP_AND\nFIRST %d SECOND %d\nSUM %d CARRY%d\n", args[0], args[1], sum, cursor->carry);
-	exit(0);
+	// exit(0);
 }
 
 void	op_or(t_cursor *cursor, t_vm *vm)
@@ -239,12 +239,23 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 	vm->cursor->prev = add;
 	add->next = vm->cursor;
 	vm->cursor = add;
+	add->prev = NULL;
 	add->id = ++(vm->num_of_cursors);
 	ft_memcpy(add->r, cursor->r, sizeof(cursor->r));
 	add->carry = cursor->carry;
 	add->last_live_cycle_nbr = cursor->last_live_cycle_nbr;
-	add->cur_position = cursor->cur_position + (addr % IDX_MOD);
-	ft_printf("new curs ID: %d\nCURS POS %d\n", add->id, add->cur_position);
+	add->cur_position = ADDR((addr % IDX_MOD) + cursor->cur_position);
+	add->parent = cursor;
+	add->op_code = 0;
+	add->cycles_before_op = 0;
+	add->bytes_to_next_op = 0;
+	// add->CHAMP_NAME = ft_strdup(cursor->CHAMP_NAME);
+	ft_printf("new curs ID: %d\n", add->id);
+	// if (add->id == 28)
+	// {
+	// 	ft_printf("cur pos pls = %d\n", add->cur_position);
+	// 	exit(0);
+	// }
 }
 
 void	op_lfork(t_cursor *cursor, t_vm *vm)
@@ -254,7 +265,7 @@ void	op_lfork(t_cursor *cursor, t_vm *vm)
 	unsigned char	*arena;
 
 	arena = vm->arena;
-	ft_printf("{blue}OP_FORK\n");
+	ft_printf("{blue}OP_LFORK\n");
 	addr = bin2int(arena + ADDR(cursor->cur_position + 1), DIR_SIZE); // size of T_DIR = 2
 	malloc_err((add = (t_cursor*)malloc(sizeof(t_cursor))), "op_lfork");
 	vm->cursor->prev = add;
@@ -264,7 +275,23 @@ void	op_lfork(t_cursor *cursor, t_vm *vm)
 	ft_memcpy(add->r, cursor->r, sizeof(cursor->r));
 	add->carry = cursor->carry;
 	add->last_live_cycle_nbr = cursor->last_live_cycle_nbr;
-	add->cur_position = addr;
+	add->cur_position = (addr + cursor->cur_position) % MEM_SIZE;
+	// if (add->id == 28)
+	// {
+	// 	ft_printf("addr = %d\ncur_pos = %d\nADDR(x) = %d\n", addr, cursor->cur_position, ADDR(addr + cursor->cur_position));
+	// 	ft_printf("cur_pos = %d\n", add->cur_position);
+	// 	exit(0);
+	// }
+	add->parent = cursor;
+	add->op_code = 0;
+	add->cycles_before_op = 0;
+	add->bytes_to_next_op = 0;
+	// add->CHAMP_NAME = ft_strdup(cursor->CHAMP_NAME);
+	// if (add->id == 28)
+	// {
+	// 	ft_printf("cur pos pls = %d\n", add->cur_position);
+	// 	exit(0);
+	// }
 	ft_printf("new curs ID: %d\n", add->id);
 }
 

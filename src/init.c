@@ -15,7 +15,7 @@ t_vm	*init_vm(void)
 	vm->checks = 0; 
 	vm->num_of_cursors = 0;
 	vm->cursor = NULL;
-	vm->was_inspected = 0;
+	// vm->was_inspected = 0;
 	init_operations(vm);
 	return (vm);
 }
@@ -124,7 +124,7 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		// ft_bzero(new_curs->r, 16);
 		// ft_bzero(new_curs->arg, 3);
 		new_curs->r[0] = -champ->id;
-		// new_curs->CHAMP_NAME = ft_strdup(champ->header.prog_name);
+		new_curs->CHAMP_NAME = ft_strdup(champ->header.prog_name);
 		printf("NEW_CURS ID: %zu\n", new_curs->id);
 		champ = champ->next;
 	}
