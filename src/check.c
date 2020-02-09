@@ -1,42 +1,40 @@
 #include "head.h"
 
-// t_cursor *kill_cursors(t_cursor *cursor)
-// {
-// 	return (NULL);
-// }
-
-// t_cursor *kill_single_cursor(t_cursor *cursor)
-// {
-// 	t_cursor *tmp;
-
-// 	tmp = cursor->next;
-// 	if (cursor->prev)
-// 		cursor->prev->next = cursor->next;
-// 	ft_strdel(&cursor->CHAMP_NAME);
-// 	free(cursor);
-// 	cursor = NULL;
-// 	return (tmp);
-// }
-
-// ALL FROM COOKBOOK 
 void	inspection(t_vm *vm, t_cursor *cursor)
 {
 	t_cursor *curr;
 	t_cursor *tmp;
 
 	ft_printf("{cyan}INSPECTION HERE\n");
-	curr = vm->cursor;
+	// print_list_of_cursors(cursor);
+	ft_printf("ARE ALIVE: %d\n", vm->are_alive);
+	// exit(0);
+	tmp = NULL;
+	curr = vm->cursor; // https://codereview.stackexchange.com/questions/83659/delete-an-item-from-a-linked-list
 	while (curr)
 	{
-		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= ft_max(0, vm->cycles_to_die))
+		if (vm->num_of_cycles - vm->cycles_to_die >= curr->last_live_cycle_nbr || vm->cycles_to_die <= 0) //doesnt work check again with other champ
+		//if (vm->num_of_cycles - curr->last_live_cycle_nbr >= ft_max(0, vm->cycles_to_die))
 		{
-			curr->prev->next = curr->next;
-			if (curr->CHAMP_NAME)
-				ft_strdel(&curr->CHAMP_NAME);
-			curr = tmp;
-			curr = curr->next;
-			free(tmp);
-			tmp = NULL;
+			printf("ID of dead: %d\n", curr->id);
+			printf("cur pos = %d\n", curr->cur_position);
+			vm->are_alive--;
+			if (curr == vm->cursor)
+			{
+				vm->cursor = curr->next;
+				free(curr);
+				curr = NULL;
+			}
+			if (curr->prev)
+			{
+				tmp = curr;
+				curr = curr->next;
+				tmp->prev->next = tmp->next;
+				if (tmp->next)
+					tmp->next->prev = tmp->prev;
+				free(tmp);
+				tmp = NULL;
+			}
 		}
 		else
 			curr = curr->next;
@@ -46,9 +44,9 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 		vm->cycles_to_die -= CYCLE_DELTA;
 		vm->checks = 0;
 	}
-	// vm->was_inspected = 1;
+	vm->cycles_before_check = vm->cycles_to_die;
 	vm->checks++;
-	
+	ft_printf("ARE ALIVE: %d\n", vm->are_alive);
 }
 int		check_arg_type(t_cursor *cursor)
 {

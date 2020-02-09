@@ -178,8 +178,8 @@ void	op_zjmp(t_cursor *cursor, t_vm *vm)
 	int	move;
 	unsigned char	*arena;
 
+	ft_printf("{blue}OP_ZJMP\n");
 	arena = vm->arena;
-
 	if (!cursor->carry)
 		return ;
 	move = 1;
@@ -188,7 +188,6 @@ void	op_zjmp(t_cursor *cursor, t_vm *vm)
 	cursor->cur_position = ADDR(cursor->cur_position + res % IDX_MOD);
 	cursor->bytes_to_next_op = 0;
 	ft_printf(" TO %d\n", cursor->cur_position);
-	ft_printf("{blue}OP_ZJMP\n");
 }
 
 void	op_ldi(t_cursor *cursor, t_vm *vm)
@@ -215,15 +214,16 @@ void	op_sti(t_cursor *cursor, t_vm *vm)
 	int	move;
 	int	addr;
 
+	ft_printf("{blue}OP_STI\n");
 	arena = vm->arena;
 	move = 2;
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
 	args[2] = get_args(cursor, arena, 2, &move);
-	addr = ADDR(cursor->cur_position + (args[1] + args[2]) % IDX_MOD);
+	addr = (cursor->cur_position + (args[1] + args[2]) % IDX_MOD) % MEM_SIZE;
 	set_to_arena(arena, addr, args[0]);
 	printf("PASTING %d TO ADDR %d\n", args[0], addr);
-	ft_printf("{blue}OP_STI\n");
+	// print_arena_2(arena, addr, addr + 4);
 }
 
 void	op_fork(t_cursor *cursor, t_vm *vm)
@@ -251,6 +251,7 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 	add->bytes_to_next_op = 0;
 	// add->CHAMP_NAME = ft_strdup(cursor->CHAMP_NAME);
 	ft_printf("new curs ID: %d\n", add->id);
+	vm->are_alive ++;
 	// if (add->id == 28)
 	// {
 	// 	ft_printf("cur pos pls = %d\n", add->cur_position);
@@ -271,27 +272,17 @@ void	op_lfork(t_cursor *cursor, t_vm *vm)
 	vm->cursor->prev = add;
 	add->next = vm->cursor;
 	vm->cursor = add;
+	add->prev = NULL;
 	add->id = ++(vm->num_of_cursors);
 	ft_memcpy(add->r, cursor->r, sizeof(cursor->r));
 	add->carry = cursor->carry;
 	add->last_live_cycle_nbr = cursor->last_live_cycle_nbr;
 	add->cur_position = (addr + cursor->cur_position) % MEM_SIZE;
-	// if (add->id == 28)
-	// {
-	// 	ft_printf("addr = %d\ncur_pos = %d\nADDR(x) = %d\n", addr, cursor->cur_position, ADDR(addr + cursor->cur_position));
-	// 	ft_printf("cur_pos = %d\n", add->cur_position);
-	// 	exit(0);
-	// }
 	add->parent = cursor;
 	add->op_code = 0;
 	add->cycles_before_op = 0;
 	add->bytes_to_next_op = 0;
-	// add->CHAMP_NAME = ft_strdup(cursor->CHAMP_NAME);
-	// if (add->id == 28)
-	// {
-	// 	ft_printf("cur pos pls = %d\n", add->cur_position);
-	// 	exit(0);
-	// }
+	vm->are_alive ++;
 	ft_printf("new curs ID: %d\n", add->id);
 }
 
@@ -385,7 +376,7 @@ void	op_st(t_cursor *cursor, t_vm *vm)
 		ft_printf("{red}arg[1] = %d\n", arg[1] % IDX_MOD);
 		ft_printf("WRITING TO %d\n", cursor->cur_position + (arg[1] % IDX_MOD));
 		set_to_arena(arena, addr, cursor->r[arg[0] - 1]);
-		print_arena_2(arena, addr, addr + 4);
+		// print_arena_2(arena, addr, addr + 4);
 	}
 	else
 		ft_printf("NOPEEPFDFSG\n");
@@ -447,12 +438,12 @@ void	init_operations(t_vm *vm)
 	vm->do_oper[5] = op_and; // DONE
 	vm->do_oper[6] = op_or; // DONE
 	vm->do_oper[7] = op_xor; // DONE
-	vm->do_oper[8] = op_zjmp; // DONE (DOUBLECHECK THIS AND BIN2INT WITH NEGATIVES)
-	vm->do_oper[9] = op_ldi; // DONE (OMG IM STUPID)
-	vm->do_oper[10] = op_sti; // DONE (OMG IM STUPID * 2)
-	vm->do_oper[11] = op_fork; // DONE (DOUBLECHECK)
-	vm->do_oper[12] = op_lld; // DONE (DOUBLECHECK)
-	vm->do_oper[13] = op_lldi; // DONE (DOUBLECHECK)
-	vm->do_oper[14] = op_lfork; // DONE (DOUBLECHECK)
+	vm->do_oper[8] = op_zjmp; // DONE
+	vm->do_oper[9] = op_ldi; // DONE (OMG IM STUPID)  sort like ok
+	vm->do_oper[10] = op_sti; // DONE (OMG IM STUPID * 2)  kogda znachenie ushlo v minus, vm srabotala, no originalnaya - net
+	vm->do_oper[11] = op_fork; // DONE (DOUBLECHECK) sort like ok
+	vm->do_oper[12] = op_lld; // DONE (DOUBLECHECK)  
+	vm->do_oper[13] = op_lldi; // DONE (DOUBLECHECK) 
+	vm->do_oper[14] = op_lfork; // DONE (DOUBLECHECK) sort like ok
 	vm->do_oper[15] = op_aff; // DONE
 }

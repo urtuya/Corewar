@@ -55,7 +55,7 @@ typedef struct	s_cursor
 	int				arg_type[3];
 	int				bytes_to_next_op;
 	int				r[16];
-
+	struct s_cursor *parent;
 	char			*CHAMP_NAME;
 	struct s_cursor *prev;
 	struct s_cursor *next;
@@ -93,11 +93,12 @@ typedef void	(*func);
 
 typedef struct	s_vm
 {
+	size_t			are_alive;
 	int				players_num;
 	t_champ			*champ;
 	unsigned char	arena[MEM_SIZE];
 	t_fl			flag;
-	int				was_inspected;
+	// int				was_inspected;
 	int				next_byte;
 	size_t			num_of_cursors;
 	t_cursor		*cursor;
@@ -105,6 +106,7 @@ typedef struct	s_vm
 	int				num_of_cycles; //num of cycles
 	int				nbr_live;
 	int				cycles_to_die;
+	int				cycles_before_check;
 	int				checks; // num of checks/inspection()
 	void			(*do_oper[16])(t_cursor*, struct s_vm*);//unsigned char*, int*);
 }				t_vm;

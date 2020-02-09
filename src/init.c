@@ -15,6 +15,8 @@ t_vm	*init_vm(void)
 	vm->checks = 0; 
 	vm->num_of_cursors = 0;
 	vm->cursor = NULL;
+	vm->are_alive = 0;
+	vm->cycles_before_check = CYCLE_TO_DIE;
 	// vm->was_inspected = 0;
 	init_operations(vm);
 	return (vm);
@@ -71,6 +73,7 @@ t_cursor	*create_cursor(t_cursor **cursor)
 	malloc_err((new = (t_cursor*)malloc(sizeof(t_cursor))), "create_cursor");
 	new->next = *cursor;
 	(*cursor)->prev = new;
+	new->prev = NULL;
 	return (new);
 	
 }
@@ -128,6 +131,7 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		printf("NEW_CURS ID: %zu\n", new_curs->id);
 		champ = champ->next;
 	}
+	vm->are_alive = vm->num_of_cursors;
 	return (new_curs);
 }
 
