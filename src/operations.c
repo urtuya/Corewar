@@ -2,10 +2,10 @@
 
 void	set_to_arena(unsigned char *arena, int addr, int arg)
 {
-	*(arena + ADDR(addr)) = (arg & 0xff000000) >> 24;
-	*(arena + ADDR(addr + 1)) = (arg & 0x00ff0000) >> 16;
-	*(arena + ADDR(addr + 2)) = (arg & 0x0000ff00) >> 8;
-	*(arena + ADDR(addr + 3)) = (arg & 0x000000ff);
+	*(arena + ft_addr(addr)) = (arg & 0xff000000) >> 24;
+	*(arena + ft_addr(addr + 1)) = (arg & 0x00ff0000) >> 16;
+	*(arena + ft_addr(addr + 2)) = (arg & 0x0000ff00) >> 8;
+	*(arena + ft_addr(addr + 3)) = (arg & 0x000000ff);
 
 }
 
@@ -36,9 +36,9 @@ void	op_add(t_cursor *cursor, t_vm *vm)
 	int	args[3];
 
 	arena = vm->arena;
-	args[0] = *(arena + ADDR(cursor->cur_position + 2)) - 1;
-	args[1] = *(arena + ADDR(cursor->cur_position + 3)) - 1;
-	args[2] = *(arena + ADDR(cursor->cur_position + 4)) - 1;
+	args[0] = *(arena + ft_addr(cursor->cur_position + 2)) - 1;
+	args[1] = *(arena + ft_addr(cursor->cur_position + 3)) - 1;
+	args[2] = *(arena + ft_addr(cursor->cur_position + 4)) - 1;
 	sum = cursor->r[args[0]] + cursor->r[args[1]];
 	if (!(cursor->r[args[2]] = sum))
 		cursor->carry = 1;
@@ -54,9 +54,9 @@ void	op_sub(t_cursor *cursor, t_vm *vm)
 	unsigned char	*arena;
 
 	arena = vm->arena;
-	args[0] = *(arena + ADDR(cursor->cur_position + 2)) - 1;
-	args[1] = *(arena + ADDR(cursor->cur_position + 3)) - 1;
-	args[2] = *(arena + ADDR(cursor->cur_position + 4)) - 1;
+	args[0] = *(arena + ft_addr(cursor->cur_position + 2)) - 1;
+	args[1] = *(arena + ft_addr(cursor->cur_position + 3)) - 1;
+	args[2] = *(arena + ft_addr(cursor->cur_position + 4)) - 1;
 	sum = cursor->r[args[0]] - cursor->r[args[1]];
 	if (!(cursor->r[args[2]] = sum))
 		cursor->carry = 1;
@@ -75,26 +75,26 @@ int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 	if (IS_REG(cursor->arg_type[i]))
 	{
 		// printf("ITS REG!\n");
-		ret = cursor->r[bin2int(arena + ADDR(cursor->cur_position + *move), 1) - 1];
-		// ret = cursor->r[*(arena + ADDR(cursor->cur_position + *move))];
+		ret = cursor->r[bin2int(arena + ft_addr(cursor->cur_position + *move), 1) - 1];
+		// ret = cursor->r[*(arena + ft_addr(cursor->cur_position + *move))];
 		*move += 1;
 	}
 	if (IS_DIR(cursor->arg_type[i]))
 	{
 		size = op_tab[cursor->op_code].size_of_t_dir ? 2 : 4;
 		// printf("ITS DIR!\n");
-		ret = bin2int(arena + ADDR(cursor->cur_position + *move), size);
+		ret = bin2int(arena + ft_addr(cursor->cur_position + *move), size);
 		*move += size;
 	}
 	if (IS_IND(cursor->arg_type[i]))
 	{
 		// printf("ITS IND!\n");
 		/*
-		ret = *(arena + ADDR(cursor->cur_position + *move));
-		ret = *(arena + ADDR(cursor->cur_position + (ret % IDX_MOD)));
+		ret = *(arena + ft_addr(cursor->cur_position + *move));
+		ret = *(arena + ft_addr(cursor->cur_position + (ret % IDX_MOD)));
 		*/
-		ret = bin2int(arena + ADDR(cursor->cur_position + *move), 2);
-		ret = bin2int(arena + ADDR(cursor->cur_position + (ret % IDX_MOD)), 2);
+		ret = bin2int(arena + ft_addr(cursor->cur_position + *move), 2);
+		ret = bin2int(arena + ft_addr(cursor->cur_position + (ret % IDX_MOD)), 2);
 		*move += 2;
 	}
 	return (ret);
@@ -113,7 +113,7 @@ void	op_and(t_cursor *cursor, t_vm *vm)
 	move = 2;
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
-	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
+	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
 	// printf("TO %d\nMOVE %d\n", to, move);
 	sum = args[0] & args[1];
 	if (!(cursor->r[to] = sum))
@@ -137,7 +137,7 @@ void	op_or(t_cursor *cursor, t_vm *vm)
 	move = 2;
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
-	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
+	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
 //	printf("TO %d\nMOVE %d\n", to, move);
 	sum = args[0] | args[1];
 	if (!(cursor->r[to] = sum))
@@ -161,7 +161,7 @@ void	op_xor(t_cursor *cursor, t_vm *vm)
 	move = 2;
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
-	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
+	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
 	printf("TO %d\nMOVE %d\n", to, move);
 	sum = args[0] ^ args[1];
 	if (!(cursor->r[to] = sum))
@@ -185,7 +185,7 @@ void	op_zjmp(t_cursor *cursor, t_vm *vm)
 	move = 1;
 	res = get_args(cursor, arena, 0, &move);
 	ft_printf("MOVING FROM %d", cursor->cur_position);
-	cursor->cur_position = ADDR(cursor->cur_position + res % IDX_MOD);
+	cursor->cur_position = ft_addr(cursor->cur_position + res % IDX_MOD);
 	cursor->bytes_to_next_op = 0;
 	ft_printf(" TO %d\n", cursor->cur_position);
 }
@@ -201,8 +201,8 @@ void	op_ldi(t_cursor *cursor, t_vm *vm)
 	move = 2;
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
-	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
-	cursor->r[to] = bin2int(arena + ADDR(cursor->cur_position + (args[0] + args[1]) % IDX_MOD), REG_SIZE);
+	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
+	cursor->r[to] = bin2int(arena + ft_addr(cursor->cur_position + (args[0] + args[1]) % IDX_MOD), REG_SIZE);
 	ft_printf("WRITING %d TO R[%d] FROM %d!\n", cursor->r[to], to, cursor->cur_position + (args[0] + args[1]) % IDX_MOD);
 	ft_printf("{blue}OP_LDI\n");
 }
@@ -222,7 +222,7 @@ void	op_sti(t_cursor *cursor, t_vm *vm)
 	args[2] = get_args(cursor, arena, 2, &move);
 	addr = (cursor->cur_position + (args[1] + args[2]) % IDX_MOD) % MEM_SIZE;
 	set_to_arena(arena, addr, args[0]);
-	printf("PASTING %d TO ADDR %d\n", args[0], addr);
+	printf("PASTING %d TO ft_addr %d\n", args[0], addr);
 	// print_arena_2(arena, addr, addr + 4);
 }
 
@@ -234,7 +234,7 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 
 	arena = vm->arena;
 	ft_printf("{blue}OP_FORK\n");
-	addr = bin2int(arena + ADDR(cursor->cur_position + 1), 2); // size of T_DIR = 2
+	addr = bin2int(arena + ft_addr(cursor->cur_position + 1), 2); // size of T_DIR = 2
 	malloc_err((add = (t_cursor*)malloc(sizeof(t_cursor))), "op_fork");
 	vm->cursor->prev = add;
 	add->next = vm->cursor;
@@ -244,7 +244,7 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 	ft_memcpy(add->r, cursor->r, sizeof(cursor->r));
 	add->carry = cursor->carry;
 	add->last_live_cycle_nbr = cursor->last_live_cycle_nbr;
-	add->cur_position = ADDR((addr % IDX_MOD) + cursor->cur_position);
+	add->cur_position = ft_addr((addr % IDX_MOD) + cursor->cur_position);
 	add->parent = cursor;
 	add->op_code = 0;
 	add->cycles_before_op = 0;
@@ -267,7 +267,7 @@ void	op_lfork(t_cursor *cursor, t_vm *vm)
 
 	arena = vm->arena;
 	ft_printf("{blue}OP_LFORK\n");
-	addr = bin2int(arena + ADDR(cursor->cur_position + 1), DIR_SIZE); // size of T_DIR = 2
+	addr = bin2int(arena + ft_addr(cursor->cur_position + 1), DIR_SIZE); // size of T_DIR = 2
 	malloc_err((add = (t_cursor*)malloc(sizeof(t_cursor))), "op_lfork");
 	vm->cursor->prev = add;
 	add->next = vm->cursor;
@@ -296,8 +296,8 @@ void	op_lld(t_cursor *cursor, t_vm *vm)
 	arena = vm->arena;
 	if (IS_DIR(cursor->arg_type[0]))
 	{
-		arg2 = *(arena + ADDR(cursor->cur_position + 2 + DIR_SIZE));
-		value = bin2int(arena + ADDR(cursor->cur_position + 2), DIR_SIZE);
+		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + DIR_SIZE));
+		value = bin2int(arena + ft_addr(cursor->cur_position + 2), DIR_SIZE);
 		cursor->r[arg2 - 1] = value;
 		cursor->carry = !value ? 1 : 0;
 		printf("ASSIGNING %d TO R[%d]\n", value, arg2 - 1);
@@ -326,8 +326,13 @@ void	op_lldi(t_cursor *cursor, t_vm *vm)
 	move = 2;
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
-	to = *(arena + ADDR(cursor->cur_position + move)) - 1;
-	cursor->r[to] = bin2int(arena + ADDR(cursor->cur_position + args[0] + args[1]), REG_SIZE);
+	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
+	if (to > REG_NUMBER || to <= 0)
+	{
+		printf("WRONG REG NUMBER: %d\n", to);
+		return ; 
+	}
+	cursor->r[to] = bin2int(arena + ft_addr(cursor->cur_position + args[0] + args[1]), REG_SIZE);
 	ft_printf("WRITING %d TO R[%d] FROM %d!\n", cursor->r[to], to, cursor->cur_position + args[0] + args[1]);
 	ft_printf("{blue}OP_LLDI\n");
 }
@@ -359,12 +364,12 @@ void	op_st(t_cursor *cursor, t_vm *vm)
 	ft_printf("{blue}OP_ST\n");
 	// ft_printf();
 	
-	arg[0] = arena[ADDR(cursor->cur_position + 2)];
+	arg[0] = arena[ft_addr(cursor->cur_position + 2)];
 	move = 3;
 	if (IS_REG(cursor->arg_type[1]))
 	{
 		// print_registers(cursor->r);
-		arg[1] = *(arena + ADDR(cursor->cur_position + 3));
+		arg[1] = *(arena + ft_addr(cursor->cur_position + 3));
 		cursor->r[arg[1] - 1] = cursor->r[arg[0] - 1]; // - 1 потому что счет с нуля
 		// print_registers(cursor->r);
 		ft_printf("LOL\n");
@@ -396,7 +401,7 @@ void	op_ld(t_cursor *cursor, t_vm *vm)
 	/*
 	move = 2;
 	value = get_args(cursor, arena, 0, &move);
-	arg2 = *(arena + ADDR(cursor->cur_position + move));
+	arg2 = *(arena + ft_addr(cursor->cur_position + move));
 	if (!(cursor->r[arg2 - 1] = value))
 		cursor->carry = 1;
 	else
@@ -406,8 +411,8 @@ void	op_ld(t_cursor *cursor, t_vm *vm)
 
 	if (IS_DIR(cursor->arg_type[0]))
 	{
-		arg2 = *(arena + ADDR(cursor->cur_position + 2 + DIR_SIZE));
-		value = bin2int(arena + ADDR(cursor->cur_position + 2), DIR_SIZE);
+		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + DIR_SIZE));
+		value = bin2int(arena + ft_addr(cursor->cur_position + 2), DIR_SIZE);
 		cursor->r[arg2 - 1] = value;
 		cursor->carry = !value ? 1 : 0;
 		printf("ASSIGNING %d TO R[%d]\n", value, arg2 - 1);

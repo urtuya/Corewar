@@ -1,5 +1,10 @@
 #include "../inc/head.h"
 
+int		ft_addr(int value)
+{
+	return (value % MEM_SIZE);
+}
+
 void	error(char *format, void *str)
 {
 	ft_fprintf(stderr, format, str);

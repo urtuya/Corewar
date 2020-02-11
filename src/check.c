@@ -27,7 +27,8 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 			}
 			else
 			{
-				curr->next->prev = curr->prev;
+				if (curr->next)
+					curr->next->prev = curr->prev;
 				if (curr->prev)
 					curr->prev->next = curr->next;
 			}
@@ -62,7 +63,7 @@ int		check_arg_type(t_cursor *cursor)
 		cursor->bytes_to_next_op += size_arg_type(cursor->arg_type[i], cursor->op_code);
 		i++;
 	}
-	ft_printf("%s", "\n\n");
+	printf("\n\n");
 	return (ret);
 }
 
@@ -91,9 +92,9 @@ int		check_registers(t_cursor *cursor, unsigned char *arena)
 	{
 		if (IS_REG(cursor->arg_type[i]))
 		{
-			reg = bin2int(arena + bytes_to_jmp, 1);
+			reg = bin2int(arena + ft_addr(bytes_to_jmp), 1);
 			ft_printf("IS_REG: %d\n", reg);
-			if (reg < 1 || reg > 16)
+			if (reg < 1 || reg >= REG_NUMBER)
 			{
 				ft_fprintf(stderr, "reg is not GUT\n");
 				return (0);

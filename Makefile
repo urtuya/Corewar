@@ -6,4 +6,4 @@ SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 
 all:
-	gcc -g $(SRC) -I $(INC) libft/libft.a
+	gcc  -Wno-implicit-function-declaration -g $(SRC) -I $(INC) libft/libft.a

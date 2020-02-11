@@ -32,7 +32,7 @@ FLAGGS = #-Wall -Wextra -Werror
 
 
 $(NAME):
-	@gcc $(FLAGGS) -c $(SRC) -I $(HFILES)
+	@gcc $(FLAGGS) -g -c $(SRC) -I $(HFILES)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME) 
 
