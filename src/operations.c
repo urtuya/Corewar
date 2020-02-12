@@ -44,6 +44,7 @@ void	op_add(t_cursor *cursor, t_vm *vm)
 		cursor->carry = 1;
 	else
 		cursor->carry = 0;
+	printf("WRITING R[%d] + R[%d] = R[%d]\n%d + %d = %d\n", args[0], args[1], args[2], cursor->r[args[0]], cursor->r[args[1]], cursor->r[args[2]]);
 	ft_printf("{blue}OP_ADD\n%d %d\n", cursor->carry, sum);
 }
 
@@ -71,10 +72,14 @@ int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 	// USE IT TO GET ARGS (EXAMPLE BELOW IN OP_AND FUNCTION AND OTHERS)
 	int	ret;
 	int	size;
+	int	tmp; // DELETE ME!!!!!!1
 	
+	printf("GET ARGS!\n");
 	if (IS_REG(cursor->arg_type[i]))
 	{
-		// printf("ITS REG!\n");
+		printf("ITS REG!\n");
+		tmp = bin2int(arena + ft_addr(cursor->cur_position + *move), 1) - 1;
+		printf("TAKING R[%d] == %d\n", tmp, cursor->r[tmp]);
 		ret = cursor->r[bin2int(arena + ft_addr(cursor->cur_position + *move), 1) - 1];
 		// ret = cursor->r[*(arena + ft_addr(cursor->cur_position + *move))];
 		*move += 1;
@@ -82,13 +87,15 @@ int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 	if (IS_DIR(cursor->arg_type[i]))
 	{
 		size = op_tab[cursor->op_code].size_of_t_dir ? 2 : 4;
-		// printf("ITS DIR!\n");
+		printf("ITS DIR!\n");
+		tmp = ft_addr(cursor->cur_position + *move);
+		printf("TAKING ARENA[%d] == %d\n", tmp, bin2int(arena + tmp, size));
 		ret = bin2int(arena + ft_addr(cursor->cur_position + *move), size);
 		*move += size;
 	}
 	if (IS_IND(cursor->arg_type[i]))
 	{
-		// printf("ITS IND!\n");
+		printf("ITS IND!\n");
 		/*
 		ret = *(arena + ft_addr(cursor->cur_position + *move));
 		ret = *(arena + ft_addr(cursor->cur_position + (ret % IDX_MOD)));
@@ -114,14 +121,14 @@ void	op_and(t_cursor *cursor, t_vm *vm)
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
 	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
-	// printf("TO %d\nMOVE %d\n", to, move);
+	 printf("TO %d\nMOVE %d\n", to, move);
 	sum = args[0] & args[1];
 	if (!(cursor->r[to] = sum))
 		cursor->carry = 1;
 	else
 		cursor->carry = 0;
-	// ft_printf("OP_AND\nFIRST %d SECOND %d\nSUM %d CARRY%d\n", args[0], args[1], sum, cursor->carry);
-	// exit(0);
+	 ft_printf("OP_AND\nFIRST %d SECOND %d\nSUM %d CARRY%d\n", args[0], args[1], sum, cursor->carry);
+	 exit(0);
 }
 
 void	op_or(t_cursor *cursor, t_vm *vm)

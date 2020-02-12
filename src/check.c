@@ -48,6 +48,7 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 	}
 	vm->cycles_before_check = vm->cycles_to_die;
 	vm->checks++;
+	vm->nbr_live = 0;
 	ft_printf("ARE ALIVE: %d\n", vm->are_alive);
 }
 int		check_arg_type(t_cursor *cursor)
