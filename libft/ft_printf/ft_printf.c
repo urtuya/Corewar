@@ -6,7 +6,7 @@
 /*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 17:37:45 by vellery-          #+#    #+#             */
-/*   Updated: 2020/01/30 04:15:04 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/12 03:45:14 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int		result(t_arg *arg, int fd)
 {
 	int ret;
+	int i;
 
+	i = 0;
 	ret = arg->buf_len + arg->char_len + arg->full_len;
 	write(fd, arg->head, ret);
 	if (arg->color)

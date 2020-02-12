@@ -16,11 +16,13 @@ static int	check_nan_inf(double val, int *sign)
 {
 	unsigned long	l;
 	int				expo;
+	unsigned int	mantis;
 
 	l = *(unsigned long*)(&val);
 	*sign = l >> 63 & 1;
 	if (val != val)
 		return (!(l >> 63 & 1) ? 1 : 2);
+	mantis = ((l << 12) >> 12);
 	if ((expo = ((l << 1) >> 53) - 1023) == 1024)
 		return (!(l >> 63 & 1) ? 3 : 4);
 	return (0);

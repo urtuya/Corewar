@@ -6,7 +6,7 @@
 /*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 17:38:06 by vellery-          #+#    #+#             */
-/*   Updated: 2020/01/17 10:00:41 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/12 03:42:47 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct	s_arg
 
 int				ft_printf(const char *format, ...);
 int				ft_fprintf(FILE *stream, const char *format, ...);
+int				ft_printf_fd(char *file, const char *format, ...);
 int				ft_printf_(va_list args, const char *format, int fd);
 int				save_format(t_arg *arg, const char *format);
 void			save_this(t_arg *arg);

@@ -6,7 +6,7 @@
 /*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 13:10:21 by vellery-          #+#    #+#             */
-/*   Updated: 2020/01/24 12:20:15 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/12 00:39:12 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <string.h>
 # include <stdint.h>
-# include <inttypes.h>
 # include "get_next_line.h"
 # include "ft_printf.h"
 
@@ -49,6 +48,7 @@ intmax_t		ft_max(intmax_t a, intmax_t b);
 int				ft_atoi(const char *str);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
+int				ft_isnumber(char *str);
 int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);

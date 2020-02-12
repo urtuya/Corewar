@@ -60,6 +60,7 @@ void	p_minus(t_arg *arg, char *str, int len)
 void	set_ptr(t_arg *arg, va_list va, char **ptr)
 {
 	char	*needed;
+	int		f;
 
 	arg->type = *arg->format++;
 	arg->length[0] = 'l';
@@ -69,6 +70,7 @@ void	set_ptr(t_arg *arg, va_list va, char **ptr)
 	arg->width = arg->width <= arg->l ? 0 : arg->width;
 	if (*needed != '0')
 		arg->preci = arg->preci <= arg->l ? -1 : arg->preci;
+	f = (*needed == '0') ? 1 : 0;
 	if (!arg->flags[0])
 		p_no_minus(arg, needed, arg->l);
 	else
