@@ -6,20 +6,22 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 	t_cursor *tmp;
 	static int count = 0;
 
-	count ++;
+	//count ++;
+	vm->checks++;
 	ft_printf("{cyan}INSPECTION HERE\n");
 	// print_list_of_cursors(cursor/);
 	// ft_printf("ARE ALIVE: %d\n", vm->are_alive);
 	ft_printf("{cyan}num of cycles: %d\n", vm->num_of_cycles);
 
 	tmp = NULL;
-	vm->checks++;
-	vm->nbr_live = 0;
 	curr = vm->cursor;
 	ft_printf("DEAD:\n");
 	while (curr)
 	{
-		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die || vm->cycles_to_die <= 0)
+		printf("CYCLES %d, LAST LIVE %d\n", vm->num_of_cycles, curr->last_live_cycle_nbr);
+		printf("%d %d\n", vm->num_of_cycles - curr->last_live_cycle_nbr, vm->cycles_to_die);
+		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die
+				|| vm->cycles_to_die <= 0)
 		{
 			ft_printf("id: %d\n", curr->id);
 			vm->are_alive--;
@@ -43,14 +45,16 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 		else
 			curr = curr->next;
 	}
+	printf("NBR LIVE %d, NBR CHECKS %d\n", vm->nbr_live, vm->checks);
 	if (vm->nbr_live >= NBR_LIVE || vm->checks == MAX_CHECKS)
 	{
 		vm->cycles_to_die -= CYCLE_DELTA;
 		vm->checks = 0;
 	}
+	vm->nbr_live = 0;
 	vm->cycles_before_check = vm->cycles_to_die;
-		if (count == 2)
-	exit(0);
+//	if (count == 1) 30 34 // 3072
+//		exit(0); //26024
 }
 int		check_arg_type(t_cursor *cursor)
 {
@@ -102,7 +106,7 @@ int		check_registers(t_cursor *cursor, unsigned char *arena)
 		{
 			reg = bin2int(arena + ft_addr(bytes_to_jmp), 1);
 			// ft_printf("IS_REG: %d\n", reg);
-			if (reg < 1 || reg >= REG_NUMBER)
+			if (reg < 1 || reg > REG_NUMBER)
 			{
 				// ft_fprintf(stderr, "reg is not GUT\n");
 				return (0);
