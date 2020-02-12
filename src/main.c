@@ -2,12 +2,9 @@
 
 int		ft_addr(int value)
 {
-	// printf("value = %d\n", value);
+	value = value % MEM_SIZE;
 	if (value < 0)
 		value += MEM_SIZE;
-	value = value % MEM_SIZE;
-	
-	// printf("value after %% memsize = %d\n", value);
 	return (value);
 }
 
@@ -59,15 +56,12 @@ int		main(int argc, char **argv)
 	introduce(vm->champ);
 
 	init_arena(vm);
-	// print_arena(vm->arena, vm->champ, vm->next_byte);
-	// set_to_arena(vm->arena + 4094, 12);
-	// print_arena_2(vm->arena, 4094, 4100);
-	// return (0);
 	start(vm);
-			printf("NUM of cycles: %d\n", vm->num_of_cycles);
-			printf("CYCLES TO DIE: %d\n", vm->cycles_to_die);
-			printf("NO MORE ALIVE\n");
-			print_arena_2(vm->arena, -1, -1);
+
+	printf("NUM of cycles: %d\n", vm->num_of_cycles);
+	printf("CYCLES TO DIE: %d\n", vm->cycles_to_die);
+	// printf("NO MORE ALIVE\n");
+	print_arena_2(vm->arena, -1, -1);
 	// print_info(vm);
 	// print_list_of_cursors(vm->cursor);
 

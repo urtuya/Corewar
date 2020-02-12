@@ -4,22 +4,24 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 {
 	t_cursor *curr;
 	t_cursor *tmp;
+	static int count = 0;
 
-	// ft_printf("{cyan}INSPECTION HERE\n");
-	// print_list_of_cursors(cursor);
+	count ++;
+	ft_printf("{cyan}INSPECTION HERE\n");
+	// print_list_of_cursors(cursor/);
 	// ft_printf("ARE ALIVE: %d\n", vm->are_alive);
-	// exit(0);
+	ft_printf("{cyan}num of cycles: %d\n", vm->num_of_cycles);
+
 	tmp = NULL;
-	curr = vm->cursor; // https://codereview.stackexchange.com/questions/83659/delete-an-item-from-a-linked-list
+	vm->checks++;
+	vm->nbr_live = 0;
+	curr = vm->cursor;
+	ft_printf("DEAD:\n");
 	while (curr)
 	{
-		// if (vm->num_of_cycles - vm->cycles_to_die < curr->last_live_cycle_nbr || vm->cycles_to_die <= 0) //doesnt work check again with other champ
-		//if (vm->num_of_cycles - curr->last_live_cycle_nbr >= ft_max(0, vm->cycles_to_die))
-		// printf("CURRENT CYCLE: %d\nLAST LIVE ON CURSOR: %d\nCYCLES SINCE LAST LIVE %d\nCYCLES TO DIE %d\n", vm->num_of_cycles, curr->last_live_cycle_nbr, vm->num_of_cycles - curr->last_live_cycle_nbr, vm->cycles_to_die);
-		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die)
+		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die || vm->cycles_to_die <= 0)
 		{
-			// printf("ID of dead: %d\n", curr->id);
-			// printf("cur pos = %d\n", curr->cur_position);
+			ft_printf("id: %d\n", curr->id);
 			vm->are_alive--;
 			if (curr == vm->cursor)
 			{
@@ -47,9 +49,8 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 		vm->checks = 0;
 	}
 	vm->cycles_before_check = vm->cycles_to_die;
-	vm->checks++;
-	vm->nbr_live = 0;
-	// ft_printf("ARE ALIVE: %d\n", vm->are_alive);
+		if (count == 2)
+	exit(0);
 }
 int		check_arg_type(t_cursor *cursor)
 {
@@ -66,6 +67,9 @@ int		check_arg_type(t_cursor *cursor)
 		cursor->bytes_to_next_op += size_arg_type(cursor->arg_type[i], cursor->op_code);
 		i++;
 	}
+
+	// if (cursor->bytes_to_next_op == 8)
+	// 	exit(0);
 	// printf("\n\n");
 	return (ret);
 }
@@ -88,6 +92,7 @@ int		check_registers(t_cursor *cursor, unsigned char *arena)
 	int	bytes_to_jmp;
 	int	reg;
 
+	ft_printf("[red}here\n");
 	// ft_printf("bytes_to_next_op = %d\n", cursor->bytes_to_next_op);
 	i = 0;
 	bytes_to_jmp = (cursor->cur_position + 1 + (op_tab[cursor->op_code].code_type_args ? 1 : 0)) % MEM_SIZE;
