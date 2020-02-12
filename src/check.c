@@ -13,8 +13,10 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 	curr = vm->cursor; // https://codereview.stackexchange.com/questions/83659/delete-an-item-from-a-linked-list
 	while (curr)
 	{
-		if (vm->num_of_cycles - vm->cycles_to_die >= curr->last_live_cycle_nbr || vm->cycles_to_die <= 0) //doesnt work check again with other champ
+		// if (vm->num_of_cycles - vm->cycles_to_die < curr->last_live_cycle_nbr || vm->cycles_to_die <= 0) //doesnt work check again with other champ
 		//if (vm->num_of_cycles - curr->last_live_cycle_nbr >= ft_max(0, vm->cycles_to_die))
+		printf("CURRENT CYCLE: %d\nLAST LIVE ON CURSOR: %d\nCYCLES SINCE LAST LIVE %d\nCYCLES TO DIE %d\n", vm->num_of_cycles, curr->last_live_cycle_nbr, vm->num_of_cycles - curr->last_live_cycle_nbr, vm->cycles_to_die);
+		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die)
 		{
 			printf("ID of dead: %d\n", curr->id);
 			printf("cur pos = %d\n", curr->cur_position);
