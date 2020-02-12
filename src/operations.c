@@ -232,10 +232,7 @@ void	op_sti(t_cursor *cursor, t_vm *vm)
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
 	args[2] = get_args(cursor, arena, 2, &move);
-	addr = ft_addr(cursor->cur_position + (args[1] + args[2]) % IDX_MOD) + MEM_SIZE;
-	ft_printf("addr ft_addr() = %d\n", addr);
-	// addr = (cursor->cur_position + (args[1] + args[2]) % IDX_MOD) % MEM_SIZE;
-	// ft_printf("addr %% memsize = %d\n", addr);
+	addr = ft_addr(cursor->cur_position + (args[1] + args[2]) % IDX_MOD);
 	set_to_arena(arena, addr, args[0]);
 	// printf("PASTING %d TO ft_addr %d\n", args[0], addr);
 	// print_arena_2(arena, addr, addr + 4);

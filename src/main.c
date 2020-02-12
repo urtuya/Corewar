@@ -2,7 +2,12 @@
 
 int		ft_addr(int value)
 {
-	value %= MEM_SIZE;
+	// printf("value = %d\n", value);
+	if (value < 0)
+		value += MEM_SIZE;
+	value = value % MEM_SIZE;
+	
+	// printf("value after %% memsize = %d\n", value);
 	return (value);
 }
 
