@@ -53,18 +53,20 @@ void	print_arena_2(unsigned char *arena, int addr, int len)
 
 	i = 0;
 	k = 0;
+	// ft_printf("{red}here\n");
 	while (i < 64)
 	{
 		j = 0;
+		ft_printf("0x%04x : ", i* 64);
 		while (j < 64)
 		{
 			if (k == addr)
 			{
-				ft_printf("{red}%02x  ", arena[k]);
+				ft_printf("{red}%02x ", arena[k]);
 				addr += (addr < len - 1 ? 1 : 0);
 			}
 			else
-				ft_printf("%02x  ", arena[k]);
+				ft_printf("%02x ", arena[k]);
 			j ++;
 			k++;
 		}
@@ -73,6 +75,21 @@ void	print_arena_2(unsigned char *arena, int addr, int len)
 	}
 }
 
+void	introduce(t_champ *champ)
+{
+	t_champ *tmp;
+	int i;
+
+	tmp = champ;
+	i = 1;
+	ft_printf("Introducing contestants...\n");
+	while (tmp)
+	{
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n", i, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
+		i++;
+		tmp = tmp->next;
+	}
+}
 
 void	print_list_of_cursors(t_cursor *cursor)
 {

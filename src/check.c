@@ -5,9 +5,9 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 	t_cursor *curr;
 	t_cursor *tmp;
 
-	ft_printf("{cyan}INSPECTION HERE\n");
+	// ft_printf("{cyan}INSPECTION HERE\n");
 	// print_list_of_cursors(cursor);
-	ft_printf("ARE ALIVE: %d\n", vm->are_alive);
+	// ft_printf("ARE ALIVE: %d\n", vm->are_alive);
 	// exit(0);
 	tmp = NULL;
 	curr = vm->cursor; // https://codereview.stackexchange.com/questions/83659/delete-an-item-from-a-linked-list
@@ -15,11 +15,11 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 	{
 		// if (vm->num_of_cycles - vm->cycles_to_die < curr->last_live_cycle_nbr || vm->cycles_to_die <= 0) //doesnt work check again with other champ
 		//if (vm->num_of_cycles - curr->last_live_cycle_nbr >= ft_max(0, vm->cycles_to_die))
-		printf("CURRENT CYCLE: %d\nLAST LIVE ON CURSOR: %d\nCYCLES SINCE LAST LIVE %d\nCYCLES TO DIE %d\n", vm->num_of_cycles, curr->last_live_cycle_nbr, vm->num_of_cycles - curr->last_live_cycle_nbr, vm->cycles_to_die);
+		// printf("CURRENT CYCLE: %d\nLAST LIVE ON CURSOR: %d\nCYCLES SINCE LAST LIVE %d\nCYCLES TO DIE %d\n", vm->num_of_cycles, curr->last_live_cycle_nbr, vm->num_of_cycles - curr->last_live_cycle_nbr, vm->cycles_to_die);
 		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die)
 		{
-			printf("ID of dead: %d\n", curr->id);
-			printf("cur pos = %d\n", curr->cur_position);
+			// printf("ID of dead: %d\n", curr->id);
+			// printf("cur pos = %d\n", curr->cur_position);
 			vm->are_alive--;
 			if (curr == vm->cursor)
 			{
@@ -49,7 +49,7 @@ void	inspection(t_vm *vm, t_cursor *cursor)
 	vm->cycles_before_check = vm->cycles_to_die;
 	vm->checks++;
 	vm->nbr_live = 0;
-	ft_printf("ARE ALIVE: %d\n", vm->are_alive);
+	// ft_printf("ARE ALIVE: %d\n", vm->are_alive);
 }
 int		check_arg_type(t_cursor *cursor)
 {
@@ -66,7 +66,7 @@ int		check_arg_type(t_cursor *cursor)
 		cursor->bytes_to_next_op += size_arg_type(cursor->arg_type[i], cursor->op_code);
 		i++;
 	}
-	printf("\n\n");
+	// printf("\n\n");
 	return (ret);
 }
 
@@ -88,7 +88,7 @@ int		check_registers(t_cursor *cursor, unsigned char *arena)
 	int	bytes_to_jmp;
 	int	reg;
 
-	ft_printf("bytes_to_next_op = %d\n", cursor->bytes_to_next_op);
+	// ft_printf("bytes_to_next_op = %d\n", cursor->bytes_to_next_op);
 	i = 0;
 	bytes_to_jmp = (cursor->cur_position + 1 + (op_tab[cursor->op_code].code_type_args ? 1 : 0)) % MEM_SIZE;
 	while (i < op_tab[cursor->op_code].arg_num)
@@ -96,15 +96,15 @@ int		check_registers(t_cursor *cursor, unsigned char *arena)
 		if (IS_REG(cursor->arg_type[i]))
 		{
 			reg = bin2int(arena + ft_addr(bytes_to_jmp), 1);
-			ft_printf("IS_REG: %d\n", reg);
+			// ft_printf("IS_REG: %d\n", reg);
 			if (reg < 1 || reg >= REG_NUMBER)
 			{
-				ft_fprintf(stderr, "reg is not GUT\n");
+				// ft_fprintf(stderr, "reg is not GUT\n");
 				return (0);
 			}
 		}
 		bytes_to_jmp += size_arg_type(cursor->arg_type[i], cursor->op_code);
-		ft_printf("bytes_to_jmp = %d\n", bytes_to_jmp); 
+		// ft_printf("bytes_to_jmp = %d\n", bytes_to_jmp); 
 		i++;
 	}
 	return (1);

@@ -118,6 +118,7 @@ t_op	op_tab[17];
 //------------------main.c
 
 void	usage(void);
+int		ft_addr(int value);
 void	error(char *format, void *str);
 // int		check_extention(char *file);
 void	malloc_err(void *addr, char *func);

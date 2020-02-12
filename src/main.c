@@ -2,7 +2,8 @@
 
 int		ft_addr(int value)
 {
-	return (value % MEM_SIZE);
+	value %= MEM_SIZE;
+	return (value);
 }
 
 void	error(char *format, void *str)
@@ -50,13 +51,18 @@ int		main(int argc, char **argv)
 		error("%s\n", "Too many champions");
 	vm = init_vm();
 	init_champs(argc - 1, argv + 1, vm);
-
+	introduce(vm->champ);
 
 	init_arena(vm);
 	// print_arena(vm->arena, vm->champ, vm->next_byte);
 	// set_to_arena(vm->arena + 4094, 12);
 	// print_arena_2(vm->arena, 4094, 4100);
+	// return (0);
 	start(vm);
+			printf("NUM of cycles: %d\n", vm->num_of_cycles);
+			printf("CYCLES TO DIE: %d\n", vm->cycles_to_die);
+			printf("NO MORE ALIVE\n");
+			print_arena_2(vm->arena, -1, -1);
 	// print_info(vm);
 	// print_list_of_cursors(vm->cursor);
 

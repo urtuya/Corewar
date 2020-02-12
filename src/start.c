@@ -85,8 +85,9 @@ void	start(t_vm *vm)
 		{   //----------IN CYCLE
 			get_oper_code(cursor, vm->arena);
 			decrease_cycle_before_op(cursor);
+		/*
 			printf("NUM OF CYCLES: %d\n", vm->num_of_cycles);
-			// ft_printf("CURRENT CURSOR CYCLES BEFORE OPERATION: %d\n", cursor->cycles_before_op);
+		*/	// ft_printf("CURRENT CURSOR CYCLES BEFORE OPERATION: %d\n", cursor->cycles_before_op);
 			if (cursor->cycles_before_op == 0)
 			{
 				count++;
@@ -103,19 +104,15 @@ void	start(t_vm *vm)
 				// 	exit(0);
 				// }
 			}
-			ft_printf("ID: %d      CUR_POSITION: %d\n", cursor->id, cursor->cur_position);
-			
+		/*	ft_printf("ID: %d      CUR_POSITION: %d\n", cursor->id, cursor->cur_position);
+		*/
 			cursor = cursor->next;
 		}
 		// CHECKS AFTER CYCLES_TO_DIE
 		if ((vm->cycles_to_die > 0 && vm->cycles_before_check == 0) //vm->cycles_to_die)
 			|| vm->cycles_to_die <= 0)
 			inspection(vm, vm->cursor);
-		if (vm->are_alive == 0)
-		{
-			ft_printf("NO MORE ALIVE\n");
-			return ;
-		}
 		cursor = vm->cursor;
+
 	}
 }
