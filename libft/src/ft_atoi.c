@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 20:18:25 by vellery-          #+#    #+#             */
-/*   Updated: 2018/12/03 05:00:51 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/14 06:36:15 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			ft_atoi(const char *str)
 	ret = 0;
 	p = 1;
 	i = 0;
-	while (func(str[i]) && str[i])
+	while (str[i] && func(str[i]))
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{

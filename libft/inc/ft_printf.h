@@ -6,7 +6,7 @@
 /*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 17:38:06 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/12 03:42:47 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/14 08:51:38 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <stdlib.h>
 # include <float.h>
 
-# ifdef FT_PRINTF 
-# define BUFF_SIZE 1024
+# ifdef FT_PRINTF
+#  define BUFF_SIZE 1024
 # endif
 
 # define RES "\x1b[0m"

@@ -19,7 +19,7 @@ LIB_CFILES = ft_atoi.c ft_lstdel.c ft_memcpy.c\
 		 ft_strmapi.c ft_strstr.c ft_ex_arrdel.c ft_ex_matdel.c\
 		 ft_ex_prnt.c ft_ex_prnt_arr.c ft_change_val.c ft_matrix.c\
 		 ft_ftoa.c intmax_toa.c uintmax_toa.c ft_freesplit.c ft_swap.c\
-		 ft_min_max.c ft_strnjoin.c
+		 ft_min_max.c ft_strnjoin.c ft_isspace.c
 PRINTF_CFILES = adding_to_buf.c color.c ft_printf.c helping.c print_char.c\
 				print_d.c print_f.c print_o_x_b.c print_p.c print_unsign.c\
 				set_all_fields.c set_len_type.c unsigned_addchar.c ft_fprintf.c

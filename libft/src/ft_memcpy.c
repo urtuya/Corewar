@@ -6,7 +6,7 @@
 /*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 03:45:22 by vellery-          #+#    #+#             */
-/*   Updated: 2020/01/24 12:49:02 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/14 01:49:43 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,5 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		to[i] = from[i];
 		i++;
 	}
-	// while (*from < *to)
-	// {
-	// 	*from = *to;
-	// 	from++;
-	// 	to++;
-	// }
 	return (dst);
 }

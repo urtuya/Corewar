@@ -53,7 +53,6 @@ void	print_arena_2(unsigned char *arena, int addr, int len)
 
 	i = 0;
 	k = 0;
-	// ft_printf("{red}here\n");
 	while (i < 64)
 	{
 		j = 0;

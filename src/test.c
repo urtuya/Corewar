@@ -20,25 +20,12 @@ typedef struct s_champ
 
 int main()
 {
-	int array[16] = {0, 1, 2, 3, 5};
-	int copy[16] = {0};
-	int i;
+	int a = 0;
+	int b = 1;
+	int c= 99;
+	int d = 55;
 
-	i = 0;
-	while (i < 16)
-	{
-		printf("[%d]: %d  ", i + 1, copy[i]);
-		i++;
-	}
-	printf("\n");
-	memcpy(copy, array, sizeof(copy));
-	i = 0;
-	while (i < 16)
-	{
-		printf("[%d]: %d  ", i + 1, copy[i]);
-		i++;
-	}
+	printf("%d\n", ft_atointmax("  			 0x2345", 0));
 
-	// printf("%#x\n", (a & 0xff000000));
 	return (0); 
 }

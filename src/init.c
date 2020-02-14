@@ -17,7 +17,6 @@ t_vm	*init_vm(void)
 	vm->cursor = NULL;
 	vm->are_alive = 0;
 	vm->cycles_before_check = CYCLE_TO_DIE;
-	// vm->was_inspected = 0;
 	init_operations(vm);
 	return (vm);
 }
@@ -78,31 +77,38 @@ t_cursor	*create_cursor(t_cursor **cursor)
 	
 }
 
-void		init_cursors(t_vm *vm, t_cursor *new, t_cursor *old, int addr)
+void		init_cursor(t_cursor *new, size_t *num, t_champ *champ)
 {
-	new->id = ++vm->num_of_cursors;
-	new->carry = old->carry;
+	/*
+	new_curs->id = ++vm->num_of_cursors;
+	new_curs->carry = 0;
+	new_curs->op_code = 0;
+	new_curs->last_live_cycle_nbr = 0;
+	new_curs->cycles_before_op = 0;
+	new_curs->cur_position = champ->start_from;
+	new_curs->bytes_to_next_op = 0;
+	ft_bzero(new_curs->arg_type, sizeof(new_curs->arg_type));
+	ft_bzero(new_curs->r, sizeof(new_curs->r));
+	new_curs->r[0] = -champ->id;
+	*/
+	new->id = ++(*num);
+	new->carry = 0;
 	new->op_code = 0;
-	new->arg_type[0] = 0;
-	new->arg_type[1] = 0;
-	new->arg_type[2] = 0;
-	new->last_live_cycle_nbr = old->last_live_cycle_nbr;
+	new->last_live_cycle_nbr = 0;
 	new->cycles_before_op = 0;
-	new->cur_position = addr;
+	new->cur_position = champ->start_from;
 	new->bytes_to_next_op = 0;
-	ft_memcpy(new->r, old->r, sizeof(new->r));
-	new->CHAMP_NAME = ft_strdup(old->CHAMP_NAME);
-	old->prev = new;
+	ft_bzero(new->arg_type, sizeof(new->arg_type));
+	ft_bzero(new->r, sizeof(new->r));
+	new->r[0] = -champ->id;
 }
 
 t_cursor	*init_first_cursors(t_vm *vm)
 {
 	t_cursor	*new_curs;
 	t_champ		*champ;
-	int			addr;
 
 	new_curs = NULL;
-	addr = 0;
 	champ = vm->champ;
 	while (champ)
 	{
@@ -114,21 +120,7 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		}
 		else
 			new_curs = create_cursor(&new_curs);
-		new_curs->id = ++vm->num_of_cursors;
-		new_curs->carry = 0;
-		new_curs->op_code = 0;
-		new_curs->last_live_cycle_nbr = 0;
-		new_curs->cycles_before_op = 0;
-		new_curs->cur_position = champ->start_from;
-		new_curs->bytes_to_next_op = 0;
-		ft_bzero(new_curs->arg_type, sizeof(new_curs->arg_type));
-		ft_bzero(new_curs->r, sizeof(new_curs->r));
-		// printf("%d %d %d\n", new_curs->r[0], new_curs->r[1], new_curs->r[2]);
-		// ft_bzero(new_curs->r, 16);
-		// ft_bzero(new_curs->arg, 3);
-		new_curs->r[0] = -champ->id;
-		new_curs->CHAMP_NAME = ft_strdup(champ->header.prog_name);
-		// printf("NEW_CURS ID: %zu\n", new_curs->id);
+		init_cursor(new_curs, &vm->num_of_cursors, champ);
 		champ = champ->next;
 	}
 	vm->are_alive = vm->num_of_cursors;
