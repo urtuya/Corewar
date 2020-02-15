@@ -6,7 +6,7 @@
 /*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/25 21:41:40 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/14 08:52:04 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/15 03:55:29 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ int	ft_isnumber(char *str)
 	if (!str || !*str)
 		return (0);
 	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i] && (str[i] == '-' || str[i] == '+'))
+		i++;
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]))
@@ -33,5 +37,5 @@ int	ft_isnumber(char *str)
 		else
 			return (0);
 	}
-	return (0);
+	return (1);
 }

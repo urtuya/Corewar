@@ -1,16 +1,22 @@
 #include "head.h"
 
-void	print_info(t_vm *vm)
+void	print_info(t_champ *champ)
 {
-	while (vm->champ)
+	t_champ *tmp;
+
+	
+	tmp = champ;
+	printf("tut %d\n", tmp->id);
+	while (tmp)
 	{
-		ft_fprintf(stderr, "ID: %d\n", vm->champ->id);
-		ft_fprintf(stderr, "NAME: %s\n", vm->champ->header.prog_name);
-		ft_fprintf(stderr, "PROG SIZE: %d\n", vm->champ->header.prog_size);
-		ft_fprintf(stderr, "COMMENT: \"%s\"\n\n", vm->champ->header.comment);
-		vm->champ = vm->champ->next;
+		ft_printf("tutt\n");
+		ft_printf("ID: %d\n", tmp->id);
+		ft_printf("NAME: %s\n", tmp->file);
+		// ft_fprintf(stderr, "PROG SIZE: %d\n", tmp->header.prog_size);
+		// ft_fprintf(stderr, "COMMENT: \"%s\"\n\n", tmp->header.comment);
+		tmp = tmp->next;
 	}
-	ft_fprintf(stderr, "NUMBER OF PLAYERS: %d\n", vm->players_num);
+	// ft_fprintf(stderr, "NUMBER OF PLAYERS: %d\n", :vm->players_num);
 }
 
 void	print_arena(unsigned char *arena, t_champ *champ, int next_byte)

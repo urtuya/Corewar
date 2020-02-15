@@ -21,6 +21,7 @@ typedef struct	s_champ
 {
 	size_t			id;
 	t_header		header;
+	char			*file;
 	size_t			start_from;
 	unsigned char	*exec_code;
 	struct s_champ	*next;
@@ -45,8 +46,10 @@ typedef struct	s_fl
 {
 	int	dump;	//32 octets
 	int	d;		//64 octets
-	int	n;
-	int	aff;	//print char
+	int	flag_n;
+	char *champ_files[4];
+	int	n[4];
+	// int	aff;	//print char
 }				t_fl;
 
 typedef struct	s_op
@@ -91,7 +94,7 @@ t_op	op_tab[17];
 //------------------init.c
 t_vm		*init_vm(void);
 void		add_champ(t_champ **champ_list, t_champ *champ_to_add);
-void		init_champs(int argc, char **argv, t_vm *vm);
+// void		init_champs(int argc, char **argv, t_vm *vm);
 void		init_cursors(t_vm *vm, t_cursor *new_cur, t_cursor *old, int addr);
 t_cursor	*init_first_cursors(t_vm *vm);
 
@@ -107,12 +110,6 @@ void	check_valid(char *file, t_champ *champ);
 //------------------arena.c
 void	init_arena(t_vm *vm);
 
-//------------------print_info.c
-void	print_info(t_vm *vm);
-void	print_arena(unsigned char *arena, t_champ *champ, int next_byte);
-void	print_list_of_cursors(t_cursor *cursor);
-
-
 //------------------start.c
 void	in_cycle(t_vm *vm);
 
@@ -125,12 +122,17 @@ int		check_registers(t_cursor *cursor, unsigned char *arena);
 
 //------------------print_info.c TEST
 void	introduce(t_champ *champ);
-void	print_info(t_vm *vm);
+void	print_info(t_champ *champ);
 void	print_arena(unsigned char *arena, t_champ *champ, int next_byte);
 void	print_arena_2(unsigned char *arena, int addr, int len);
 void	print_list_of_cursors(t_cursor *cursor);
 void	print_registers(int *registers);
 //------------------operations.c
+
+//------------------print.c
+void	usage(void);
+void	error(char *format, void *str);
+void	malloc_err(void *addr, char *func);
 
 
 #endif

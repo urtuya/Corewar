@@ -1,12 +1,20 @@
 #include "../inc/head.h"
 
+void	add_new_champ(t_vm *vm,  char *name, int id)
+{
+	t_champ *new;
+	t_champ *tmp;
+
+	malloc_err((new = (t_champ*)malloc(sizeof(t_champ))), "add_new_champ");
+}
+
 t_vm	*init_vm(void)
 {
 	t_vm *vm;
 
 	malloc_err((vm = (t_vm*)malloc(sizeof(t_vm))), "init_vm");
 	vm->champ = NULL;
-	vm->flag = (t_fl){0, 0};
+	vm->flag = (t_fl){0, 0, 0, {0,0,0,0}};
 	vm->players_num = 0;
 	vm->last_live = 0;
 	vm->num_of_cycles = 0;
@@ -42,28 +50,54 @@ void	add_champ(t_champ **champ_list, t_champ *champ_to_add)
 
 //-----------------------------LIST OF CHAMPS
 
-void	init_champs(int argc, char **argv, t_vm *vm)
+// void	init_champs(int argc, char **argv, t_vm *vm)
+// {
+// 	t_champ *champ;
+// 	size_t i;
+
+// 	malloc_err((champ = (t_champ*)malloc(sizeof(t_champ))), "init_champs");
+// 	vm->champ = champ;
+// 	i = 0;
+// 	while (i < argc)
+// 	{
+// 		champ->id = i + 1;
+// 		check_valid(argv[i], champ);
+// 		if (i != argc - 1)
+// 			malloc_err((champ->next = (t_champ*)malloc(sizeof(t_champ))), "init_champs()");
+// 		else
+// 			champ->next = NULL;
+// 		champ = champ->next;
+// 		vm->players_num++;
+// 		i++;
+// 	}
+// 	vm->next_byte = MEM_SIZE / vm->players_num;
+// }
+
+void	init_champs(t_vm *vm, char *file, int id)
 {
 	t_champ *champ;
-	size_t i;
+	t_champ *new;
 
-	malloc_err((champ = (t_champ*)malloc(sizeof(t_champ))), "init_champs");
-	vm->champ = champ;
-	i = 0;
-	while (i < argc)
+	if (!vm->champ)
 	{
-		champ->id = i + 1;
-		check_valid(argv[i], champ);
-		if (i != argc - 1)
-			malloc_err((champ->next = (t_champ*)malloc(sizeof(t_champ))), "init_champs()");
-		else
-			champ->next = NULL;
-		champ = champ->next;
-		vm->players_num++;
-		i++;
+		malloc_err((vm->champ = (t_champ*)malloc(sizeof(t_champ))), "init_champs");
+		champ = vm->champ;
+		vm->champ->id = id;
+		vm->champ->next = NULL;
 	}
-	vm->next_byte = MEM_SIZE / vm->players_num;
+	else
+	{
+		champ = vm->champ;
+		while (champ->next)
+			champ = champ->next;
+		malloc_err((new = (t_champ*)malloc(sizeof(t_champ))), "init_champs");
+		new->next = NULL;
+		champ->next = new;
+	}
+	// check_valid(file, champ);
+	vm->players_num++;
 }
+
 
 t_cursor	*create_cursor(t_cursor **cursor)
 {

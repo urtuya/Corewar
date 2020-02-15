@@ -22,22 +22,29 @@ int		main(int argc, char **argv)
 	vm = NULL;
 	if (argc < 2)
 		usage();
-	// parsing_args(vm, argc - 1, argv + 1);
-	else if (argc > MAX_ARGS_NUMBER + 1)
-		error("%s\n", "Too many champions");
+	
+	argc--;
+	argv++;
+	// else if (argc > MAX_ARGS_NUMBER + 1)
+	// 	error("%s\n", "Too many champions");
 
 	vm = init_vm();
-	init_champs(argc - 1, argv + 1, vm);
+	parsing_args(vm, &argc, &argv);
+	// print_info(vm->champ);
+	// ft_printf("flags %d %d\n", vm->flag.d, vm->flag.dump);
 
-	introduce(vm->champ);
+
+	// init_champs(argc - 1, argv + 1, vm);
+
+	// introduce(vm->champ);
 	
-	init_arena(vm);
-	vm->cursor = init_first_cursors(vm);
-	in_cycle(vm);
+	// init_arena(vm);
+	// vm->cursor = init_first_cursors(vm);
+	// in_cycle(vm);
 
-	printf("NUM of cycles: %d\n", vm->num_of_cycles);
-	printf("CYCLES TO DIE: %d\n", vm->cycles_to_die);
-	print_arena_2(vm->arena, -1, -1);
+	// printf("NUM of cycles: %d\n", vm->num_of_cycles);
+	// printf("CYCLES TO DIE: %d\n", vm->cycles_to_die);
+	// print_arena_2(vm->arena, -1, -1);
 
 	return (0);
 }
