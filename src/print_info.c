@@ -6,14 +6,14 @@ void	print_info(t_champ *champ)
 
 	
 	tmp = champ;
-	printf("tut %d\n", tmp->id);
+	// printf("tut %d\n", tmp->id);
 	while (tmp)
 	{
-		ft_printf("tutt\n");
+		// ft_printf("tutt\n");
 		ft_printf("ID: %d\n", tmp->id);
-		ft_printf("NAME: %s\n", tmp->file);
-		// ft_fprintf(stderr, "PROG SIZE: %d\n", tmp->header.prog_size);
-		// ft_fprintf(stderr, "COMMENT: \"%s\"\n\n", tmp->header.comment);
+		ft_printf("NAME: %s\n", tmp->header.prog_name);
+		ft_fprintf(stderr, "PROG SIZE: %d\n", tmp->header.prog_size);
+		ft_fprintf(stderr, "COMMENT: \"%s\"\n\n", tmp->header.comment);
 		tmp = tmp->next;
 	}
 	// ft_fprintf(stderr, "NUMBER OF PLAYERS: %d\n", :vm->players_num);
@@ -80,21 +80,6 @@ void	print_arena_2(unsigned char *arena, int addr, int len)
 	}
 }
 
-void	introduce(t_champ *champ)
-{
-	t_champ *tmp;
-	int i;
-
-	tmp = champ;
-	i = 1;
-	ft_printf("Introducing contestants...\n");
-	while (tmp)
-	{
-		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n", i, tmp->header.prog_size, tmp->header.prog_name, tmp->header.comment);
-		i++;
-		tmp = tmp->next;
-	}
-}
 
 void	print_list_of_cursors(t_cursor *cursor)
 {

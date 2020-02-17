@@ -13,15 +13,10 @@
 # define NULL_SIZE 4
 # define EXEC_CODE_SIZE 4
 
-# define IS_REG(x) (T_REG == x ? 1 : 0)
-# define IS_IND(x) (T_IND == x ? 1 : 0)
-# define IS_DIR(x) (T_DIR == x ? 1 : 0)
-
 typedef struct	s_champ
 {
 	size_t			id;
 	t_header		header;
-	char			*file;
 	size_t			start_from;
 	unsigned char	*exec_code;
 	struct s_champ	*next;
@@ -44,11 +39,9 @@ typedef struct	s_cursor
 
 typedef struct	s_fl
 {
+	int	num;
 	int	dump;	//32 octets
 	int	d;		//64 octets
-	int	flag_n;
-	char *champ_files[4];
-	int	n[4];
 	// int	aff;	//print char
 }				t_fl;
 
@@ -64,16 +57,13 @@ typedef struct	s_op
 	int		size_of_t_dir; //  0=4, 1=2
 }				t_op;
 
-
 typedef struct	s_vm
 {
-	size_t			are_alive;
+	// size_t			are_alive;
 	int				players_num;
 	t_champ			*champ;
 	unsigned char	arena[MEM_SIZE];
 	t_fl			flag;
-	// int				was_inspected;
-	int				next_byte;
 	size_t			num_of_cursors;
 	t_cursor		*cursor;
 	int				last_live;
@@ -121,7 +111,7 @@ int		check_arg_type(t_cursor *cursor);
 int		check_registers(t_cursor *cursor, unsigned char *arena);
 
 //------------------print_info.c TEST
-void	introduce(t_champ *champ);
+
 void	print_info(t_champ *champ);
 void	print_arena(unsigned char *arena, t_champ *champ, int next_byte);
 void	print_arena_2(unsigned char *arena, int addr, int len);
@@ -133,6 +123,6 @@ void	print_registers(int *registers);
 void	usage(void);
 void	error(char *format, void *str);
 void	malloc_err(void *addr, char *func);
-
+void	introduce(t_champ *champ);
 
 #endif

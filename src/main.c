@@ -1,5 +1,6 @@
 #include "../inc/head.h"
 
+/* //NO EXTENTION FOR CHAMPION FILE! JUST VALID OF BYTECODE! 
 int		check_extention(char *file)
 {
 	char *tmp;
@@ -9,10 +10,7 @@ int		check_extention(char *file)
 		return (0);
 	return (1);
 }
-//-------------------------------LIST  OF CHAMPS
-
-// t_op op_tab[17];
-
+*/
 
 int		main(int argc, char **argv)
 {
@@ -30,21 +28,15 @@ int		main(int argc, char **argv)
 
 	vm = init_vm();
 	parsing_args(vm, &argc, &argv);
-	// print_info(vm->champ);
-	// ft_printf("flags %d %d\n", vm->flag.d, vm->flag.dump);
+	introduce(vm->champ);
+	init_arena(vm);
+	vm->cursor = init_first_cursors(vm);
+	in_cycle(vm);
 
-
-	// init_champs(argc - 1, argv + 1, vm);
-
-	// introduce(vm->champ);
-	
-	// init_arena(vm);
-	// vm->cursor = init_first_cursors(vm);
-	// in_cycle(vm);
 
 	// printf("NUM of cycles: %d\n", vm->num_of_cycles);
 	// printf("CYCLES TO DIE: %d\n", vm->cycles_to_die);
-	// print_arena_2(vm->arena, -1, -1);
+	// print_winner(vm->champ, vm->last_live);
 
 	return (0);
 }

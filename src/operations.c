@@ -87,7 +87,7 @@ int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 	int	tmp; // DELETE ME!!!!!!1
 	
 	// printf("GET ARGS!\n");
-	if (IS_REG(cursor->arg_type[i]))
+	if (cursor->arg_type[i] == T_REG)
 	{
 		if (*(arena + ft_addr(cursor->cur_position + *move)) < 1 || *(arena + ft_addr(cursor->cur_position + *move)) > 16)
 		{
@@ -100,14 +100,14 @@ int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 		*move += 1;
 
 	}
-	if (IS_DIR(cursor->arg_type[i]))
+	if (cursor->arg_type[i] == T_DIR)
 	{
 		size = op_tab[cursor->op_code].size_of_t_dir ? 2 : 4;
 		// printf("ITS DIR!\n");
 		ret = bin2int(arena + ft_addr(cursor->cur_position + *move), size);
 		*move += size;
 	}
-	if (IS_IND(cursor->arg_type[i]))
+	if (cursor->arg_type[i] == T_IND)
 	{
 		// printf("ITS IND!\n");
 		ret = bin2int(arena + ft_addr(cursor->cur_position + *move), IND_SIZE); // This is SHIT!
@@ -288,7 +288,7 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 	add->op_code = 0;
 	add->cycles_before_op = 0;
 	add->bytes_to_next_op = 0;
-	vm->are_alive ++;
+	// vm->are_alive ++;
 	//ft_printf("{blue}OP_FORK\n");
 }
 
@@ -314,7 +314,7 @@ void	op_lfork(t_cursor *cursor, t_vm *vm)
 	add->op_code = 0;
 	add->cycles_before_op = 0;
 	add->bytes_to_next_op = 0;
-	vm->are_alive++;
+	// vm->are_alive++;
 	// //ft_printf("new curs ID: %d\n", add->id);
 		//ft_printf("{blue}OP_LFORK\n");
 }
@@ -328,7 +328,7 @@ void	op_lld(t_cursor *cursor, t_vm *vm)
 
 	//ft_printf("{blue}OP_LLD\n");
 	arena = vm->arena;
-	if (IS_DIR(cursor->arg_type[0]))
+	if (cursor->arg_type[0] == T_DIR)
 	{
 		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + 4));
 		value = bin2int(arena + ft_addr(cursor->cur_position + 2), 4);
@@ -336,7 +336,7 @@ void	op_lld(t_cursor *cursor, t_vm *vm)
 		cursor->carry = !value ? 1 : 0;
 		printf("ASSIGNING %d TO R[%d]\n", value, arg2 - 1);
 	}
-	else if (IS_IND(cursor->arg_type[0]))
+	else if (cursor->arg_type[0] == T_IND)
 	{
 		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + 4));
 		value = cursor->cur_position + (bin2int(arena + ft_addr(cursor->cur_position + 2), 4));
@@ -401,7 +401,7 @@ void	op_st(t_cursor *cursor, t_vm *vm)
 
 	arena = vm->arena;
 	arg[0] = arena[ft_addr(cursor->cur_position + 2)] - 1;
-	if (IS_REG(cursor->arg_type[1]))
+	if (cursor->arg_type[1] == T_REG)
 	{
 		// print_registers(cursor->r);
 		arg[1] = *(arena + ft_addr(cursor->cur_position + 3)) - 1;
@@ -414,7 +414,7 @@ void	op_st(t_cursor *cursor, t_vm *vm)
 		// print_registers(cursor->r);
 		// //ft_printf("LOL\n");
 	}
-	else if (IS_IND(cursor->arg_type[1]))
+	else if (cursor->arg_type[1] == T_IND)
 	{
 		arg[1] = bin2int(arena + ft_addr(cursor->cur_position + 3), IND_SIZE);
 		addr = ft_addr(cursor->cur_position + (arg[1] % IDX_MOD));
@@ -422,6 +422,7 @@ void	op_st(t_cursor *cursor, t_vm *vm)
 		// //ft_printf("WRITING TO %d\n", cursor->cur_position + (arg[1] % IDX_MOD));
 		set_to_arena(arena, addr, cursor->r[arg[0]]);
 		// print_arena_2(arena, addr, addr + 4);
+		// exit(0);
 	}
 	else
 		ft_printf("NOPEEPFDFSG\n");
@@ -451,7 +452,7 @@ void	op_ld(t_cursor *cursor, t_vm *vm)
 	*/
 
 	//ft_printf("{blue}OP_LD");
-	if (IS_DIR(cursor->arg_type[0]))
+	if (cursor->arg_type[0] == T_DIR)
 	{
 		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + DIR_SIZE));
 		value = bin2int(arena + ft_addr(cursor->cur_position + 2), DIR_SIZE);
@@ -459,7 +460,7 @@ void	op_ld(t_cursor *cursor, t_vm *vm)
 		cursor->carry = !value ? 1 : 0;
 		// printf("  ASSIGNING %d TO R[%d]\n", value, arg2 - 1);
 	}
-	else if (IS_IND(cursor->arg_type[0]))
+	else if (cursor->arg_type[0] == T_IND)
 	{
 		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + IND_SIZE));
 		value = cursor->cur_position + (bin2int(arena + ft_addr(cursor->cur_position + 2), IND_SIZE));

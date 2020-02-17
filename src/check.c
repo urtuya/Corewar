@@ -12,7 +12,7 @@ void	remove_dead_cursor(t_vm *vm, t_cursor *cursor)
 		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die
 				|| vm->cycles_to_die <= 0)
 		{
-			vm->are_alive--;
+			// vm->are_alive--;
 			if (curr == vm->cursor)
 			{
 				vm->cursor = vm->cursor->next;
@@ -88,7 +88,7 @@ int		check_registers(t_cursor *cursor, unsigned char *arena)
 	bytes_to_jmp = ft_addr(cursor->cur_position + 1 + (op_tab[cursor->op_code].code_type_args ? 1 : 0));// % MEM_SIZE;
 	while (i < op_tab[cursor->op_code].arg_num)
 	{
-		if (IS_REG(cursor->arg_type[i]))
+		if (cursor->arg_type[i] == T_REG)
 		{
 			reg = bin2int(arena + ft_addr(bytes_to_jmp), 1);		
 			if (reg < 1 || reg > REG_NUMBER) //THATS WORK

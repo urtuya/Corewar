@@ -1,11 +1,16 @@
 #include "../inc/head.h"
 
-void	add_new_champ(t_vm *vm,  char *name, int id)
+void	add_new_champ(t_vm *vm, int id, char *file)
 {
 	t_champ *new;
 	t_champ *tmp;
 
-	malloc_err((new = (t_champ*)malloc(sizeof(t_champ))), "add_new_champ");
+	if (!vm->champ)
+	{
+		malloc_err((vm->champ = (t_champ*)malloc(sizeof(t_champ))), "add_new_champ");
+		vm->champ->id = id;
+
+	}
 }
 
 t_vm	*init_vm(void)
@@ -14,7 +19,7 @@ t_vm	*init_vm(void)
 
 	malloc_err((vm = (t_vm*)malloc(sizeof(t_vm))), "init_vm");
 	vm->champ = NULL;
-	vm->flag = (t_fl){0, 0, 0, {0,0,0,0}};
+	vm->flag = (t_fl){-1, 0, 0};
 	vm->players_num = 0;
 	vm->last_live = 0;
 	vm->num_of_cycles = 0;
@@ -23,7 +28,7 @@ t_vm	*init_vm(void)
 	vm->checks = 0; 
 	vm->num_of_cursors = 0;
 	vm->cursor = NULL;
-	vm->are_alive = 0;
+	// vm->are_alive = 0;
 	vm->cycles_before_check = CYCLE_TO_DIE;
 	init_operations(vm);
 	return (vm);
@@ -73,17 +78,16 @@ void	add_champ(t_champ **champ_list, t_champ *champ_to_add)
 // 	vm->next_byte = MEM_SIZE / vm->players_num;
 // }
 
-void	init_champs(t_vm *vm, char *file, int id)
+void	init_champs(t_vm *vm, char *file, int id, int flag)
 {
-	t_champ *champ;
-	t_champ *new;
+	t_champ		*champ;
+	t_champ		*new;
+	static int	max_id = 1;
 
 	if (!vm->champ)
 	{
 		malloc_err((vm->champ = (t_champ*)malloc(sizeof(t_champ))), "init_champs");
 		champ = vm->champ;
-		vm->champ->id = id;
-		vm->champ->next = NULL;
 	}
 	else
 	{
@@ -91,11 +95,16 @@ void	init_champs(t_vm *vm, char *file, int id)
 		while (champ->next)
 			champ = champ->next;
 		malloc_err((new = (t_champ*)malloc(sizeof(t_champ))), "init_champs");
-		new->next = NULL;
 		champ->next = new;
+		champ = champ->next;
 	}
-	// check_valid(file, champ);
+	champ->id = id;
+	max_id = id > max_id ? id : max_id;
+	champ->next = NULL;
+	check_valid(file, champ);
 	vm->players_num++;
+	if (flag && max_id > vm->players_num)
+			usage();
 }
 
 
@@ -113,18 +122,6 @@ t_cursor	*create_cursor(t_cursor **cursor)
 
 void		init_cursor(t_cursor *new, size_t *num, t_champ *champ)
 {
-	/*
-	new_curs->id = ++vm->num_of_cursors;
-	new_curs->carry = 0;
-	new_curs->op_code = 0;
-	new_curs->last_live_cycle_nbr = 0;
-	new_curs->cycles_before_op = 0;
-	new_curs->cur_position = champ->start_from;
-	new_curs->bytes_to_next_op = 0;
-	ft_bzero(new_curs->arg_type, sizeof(new_curs->arg_type));
-	ft_bzero(new_curs->r, sizeof(new_curs->r));
-	new_curs->r[0] = -champ->id;
-	*/
 	new->id = ++(*num);
 	new->carry = 0;
 	new->op_code = 0;
@@ -157,7 +154,7 @@ t_cursor	*init_first_cursors(t_vm *vm)
 		init_cursor(new_curs, &vm->num_of_cursors, champ);
 		champ = champ->next;
 	}
-	vm->are_alive = vm->num_of_cursors;
+	// vm->are_alive = vm->num_of_cursors;
 	return (new_curs);
 }
 
