@@ -1,6 +1,6 @@
 #include "head.h"
 
-int	get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
+int		get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 {
 	int		ret;
 	int		size;
