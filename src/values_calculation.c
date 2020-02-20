@@ -58,3 +58,11 @@ void	bin2str(int fd, char *buf, int len)
 	if (size != len)
 		error("Invalid file\n", "");
 }
+
+void	set_to_arena(unsigned char *arena, int addr, int arg)
+{
+	*(arena + ft_addr(addr)) = (arg & 0xff000000) >> 24;
+	*(arena + ft_addr(addr + 1)) = (arg & 0x00ff0000) >> 16;
+	*(arena + ft_addr(addr + 2)) = (arg & 0x0000ff00) >> 8;
+	*(arena + ft_addr(addr + 3)) = (arg & 0x000000ff);
+}

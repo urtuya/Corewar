@@ -6,7 +6,7 @@
 /*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 13:10:21 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/15 03:08:05 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/20 12:30:22 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_strnjoin(char *s1, char *s2, int len_s1, int len_s2);
 int				ft_isspace(int c);
 int				ft_isupper(int c);
+
 typedef struct	s_list
 {
 	void			*content;

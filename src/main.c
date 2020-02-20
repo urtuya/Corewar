@@ -1,43 +1,36 @@
-#include "../inc/head.h"
+#include "head.h"
 
-/* //NO EXTENTION FOR CHAMPION FILE! JUST VALID OF BYTECODE! 
-int		check_extention(char *file)
+void	free_all(t_vm *vm)
 {
-	char *tmp;
+	t_champ *champ;
 
-	tmp = ft_strstr(file, ".cor");
-	if (!tmp || ft_strcmp(tmp, ".cor"))
-		return (0);
-	return (1);
+	while (vm->champ)
+	{
+		champ = vm->champ;
+		vm->champ = vm->champ->next;
+		free(champ->exec_code);
+		free(champ);
+		champ = NULL;
+	}
+	free(vm);
 }
-*/
 
 int		main(int argc, char **argv)
 {
 	t_vm		*vm;
-	char *str;
 
 	vm = NULL;
 	if (argc < 2)
 		usage();
-	
+	vm = init_vm();
 	argc--;
 	argv++;
-	// else if (argc > MAX_ARGS_NUMBER + 1)
-	// 	error("%s\n", "Too many champions");
-
-	vm = init_vm();
 	parsing_args(vm, &argc, &argv);
 	introduce(vm->champ);
 	init_arena(vm);
 	vm->cursor = init_first_cursors(vm);
 	in_cycle(vm);
-
-
-	// printf("NUM of cycles: %d\n", vm->num_of_cycles);
-	// printf("CYCLES TO DIE: %d\n", vm->cycles_to_die);
-	// print_winner(vm->champ, vm->last_live);
-
+	print_winner(vm);
+	free_all(vm);
 	return (0);
 }
-

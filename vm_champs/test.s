@@ -1,7 +1,5 @@
 .name "test"
 .comment "test"
 
-live:
-	live %123
-	add r2, r3, r4
-	zjmp %:live
+ld %77, r3
+aff r3

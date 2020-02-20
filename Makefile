@@ -1,9 +1,11 @@
 SRC_DIR = src/
-SRC_FILES = main.c validation.c init.c arena.c start.c print_info.c check.c op.c\
-			operations.c values_calculation.c print.c parse_args.c
+SRC_FILES = main.c validation.c init.c init_main_struct.c in_cycle.c check.c op.c\
+			operations13_16.c values_calculation.c print.c parse_args.c\
+			operations1_3.c operations4_8.c operations9_12.c
+LIBFT_DIR = libft
 INC = inc/
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 
 all:
-	gcc  -g $(SRC) -I $(INC) libft/libft.a
+	gcc  -g $(SRC) -I $(INC) $(LIBFT_DIR)/libft.a

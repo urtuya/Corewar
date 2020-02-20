@@ -1,6 +1,6 @@
-#include "../inc/head.h"
+#include "head.h"
 
-void	champ_name(int fd, t_champ *champ)
+void			champ_name(int fd, t_champ *champ)
 {
 	int size;
 
@@ -11,10 +11,10 @@ void	champ_name(int fd, t_champ *champ)
 		error("Invalid file\n", "");
 }
 
-int		read_bin(int fd, int len)
+int				read_bin(int fd, int len)
 {
-	int size;
-	unsigned char buf[4];
+	int				size;
+	unsigned char	buf[4];
 
 	size = read(fd, &buf, len);
 	if (size < 0)
@@ -30,7 +30,8 @@ unsigned char	*read_code(int fd, int len)
 	unsigned char	end_of_file;
 	int				size;
 
-	malloc_err((buf = (unsigned char*)malloc(sizeof(unsigned char) * len)), "read_code in main()");
+	malloc_err((buf = (unsigned char*)malloc(sizeof(unsigned char) *
+									len)), "read_code");
 	size = read(fd, buf, len);
 	if (size < 0)
 		error("Error reading file\n", "");
@@ -41,7 +42,7 @@ unsigned char	*read_code(int fd, int len)
 	return (buf);
 }
 
-void	check_valid(char *file, t_champ *champ)
+void			check_valid(char *file, t_champ *champ)
 {
 	int		fd;
 
@@ -57,7 +58,9 @@ void	check_valid(char *file, t_champ *champ)
 	champ->header.prog_size = read_bin(fd, EXEC_CODE_SIZE);
 	if (champ->header.prog_size > CHAMP_MAX_SIZE)
 	{
-		fprintf(stderr, "Error: File %s has too large a code (%d bytes > 682 bytes)\n", file, champ->header.prog_size);
+		ft_fprintf(stderr, "Error: File ");
+		fprintf(stderr, "%s has too large a code %d bytes > 682 bytes)\n",
+				file, champ->header.prog_size);
 		exit(1);
 	}
 	bin2str(fd, champ->header.comment, COMMENT_LENGTH);

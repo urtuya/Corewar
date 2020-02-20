@@ -7,6 +7,27 @@ void	set_dump_flag(int *flag1, int *flag2)
 		*flag2 = 0;
 }
 
+void	d_flag(t_fl *flag, int num, char *str, int *i)
+{
+	flag->num = num;
+	if (flag->num < 0)
+		exit(0);
+	if (!(ft_strcmp(str, "dump")))
+		set_dump_flag(&flag->dump, &flag->d);
+	else
+		set_dump_flag(&flag->d, &flag->dump);
+	*i += 2;
+}
+
+void	live_aff_flag(t_fl *flag, int *i, int q)
+{
+	if (!q)
+		flag->live = 0;
+	else if (q == 1)
+		flag->aff = 1;
+	*i += 1;
+}
+
 void	parsing_dumps(int *ac, char ***av, t_fl *flag)
 {
 	int i;
@@ -15,18 +36,13 @@ void	parsing_dumps(int *ac, char ***av, t_fl *flag)
 	while (i < *ac && (*av)[i][0] == '-' && (*av)[i][1])
 		if ((!ft_strcmp((*av)[i] + 1, "d") || !ft_strcmp((*av)[i] + 1, "dump"))\
 			&& i + 2 < *ac && ft_isnumber((*av)[i + 1]))
-		{
-			flag->num = ft_atoi((*av)[i + 1]);
-			if (flag->num < 0)
-				exit(0);
-			if (!(ft_strcmp((*av)[i] + 1, "dump")))
-				set_dump_flag(&flag->d, &flag->dump);
-			else
-				set_dump_flag(&flag->dump, &flag->d);
-				// flag->dump = 1;
-			i += 2;
-		}
-		else if (!ft_strcmp((*av)[i] + 1, "n") && i + 1 < *ac && ft_isnumber((*av)[i + 1]))
+			d_flag(flag, ft_atoi((*av)[i + 1]), (*av)[i] + 1, &i);
+		else if (!ft_strcmp((*av)[i] + 1, "l"))
+			live_aff_flag(flag, &i, 0);
+		else if (!ft_strcmp((*av)[i] + 1, "aff"))
+			live_aff_flag(flag, &i, 1);
+		else if (!ft_strcmp((*av)[i] + 1, "n")
+				&& i + 1 < *ac && ft_isnumber((*av)[i + 1]))
 			break ;
 		else
 			usage();
@@ -86,11 +102,18 @@ void	ins_sort(t_champ **head, int num)
 	*head = sorted;
 }
 
+void	args_number(int num)
+{
+	if (num > MAX_ARGS_NUMBER)
+		error("Too many champions\n", "");
+}
+
 void	set_ids_to_champs(t_vm *vm)
 {
 	t_champ		*champ;
 	static int	ids[4] = {1, 2, 3, 4};
 
+	args_number(vm->players_num);
 	champ = vm->champ;
 	while (champ)
 	{
@@ -113,6 +136,15 @@ void	set_ids_to_champs(t_vm *vm)
 	}
 }
 
+void	flag_n(t_vm *vm, int num)
+{
+	// if ((n = ft_atoi((*av)[i + 1])) < 1 ||
+	// 		n > MAX_ARGS_NUMBER || same_id(vm->champ, n))
+	// 	usage(); // INVALID CHAMP NUMBER
+	if (num < 1 || num > MAX_ARGS_NUMBER || same_id(vm->champ, num))
+		error("Invalid champion number\n", ""); // or usage
+}
+
 void	parsing_args(t_vm *vm, int *ac, char ***av)
 {
 	int				i;
@@ -124,11 +156,10 @@ void	parsing_args(t_vm *vm, int *ac, char ***av)
 	{
 		if ((*av)[i][0] == '-' && (*av)[i][1])
 		{
-			if (!ft_strcmp((*av)[i] + 1, "n") && i + 2 < *ac && ft_isnumber((*av)[i + 1]))
+			if (!ft_strcmp((*av)[i] + 1, "n") &&
+				i + 2 < *ac && ft_isnumber((*av)[i + 1]))
 			{
-				if ((n = ft_atoi((*av)[i + 1])) < 1 ||
-						n > MAX_ARGS_NUMBER || same_id(vm->champ, n))
-					usage(); // INVALID CHAMP NUMBER
+				flag_n(vm, (n = ft_atoi((*av)[i + 1])));
 				init_champs(vm, (*av)[i + 2], n, i + 3 >= *ac);
 				i += 2;
 				continue ;
