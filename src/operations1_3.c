@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operations1_3.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/22 22:35:49 by vellery-          #+#    #+#             */
+/*   Updated: 2020/02/22 22:37:14 by vellery-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "head.h"
 
 static char	*champ_name(t_champ *chmp, int id)
@@ -59,7 +71,7 @@ void		op_ld(t_cursor *cursor, t_vm *vm)
 	}
 }
 
-void	op_st(t_cursor *cursor, t_vm *vm)
+void		op_st(t_cursor *cursor, t_vm *vm)
 {
 	int				addr;
 	int				arg[2];
