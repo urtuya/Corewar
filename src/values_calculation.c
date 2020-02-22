@@ -24,7 +24,7 @@ int		reverse_negative(int negative, int size)
 	return (negative ^ tmp);
 }
 
-int		bin2int(unsigned char *buf, int size)
+int		bin2int(unsigned char *buf, int start, int size)
 {
 	int	i;
 	int	tmp;
@@ -37,11 +37,12 @@ int		bin2int(unsigned char *buf, int size)
 	tmp = size * 8 - 8;
 	while (i < size)
 	{
-		if (!i && buf[i] & (0x1 << 7))
+		if (!i && buf[start] & (0x1 << 7))
 			flag = 1;
-		ret += buf[i] << tmp;
+		ret += buf[start] << tmp;
 		tmp -= 8;
 		i++;
+		start = ft_addr(start + 1);
 	}
 	if (flag)
 		ret = -reverse_negative(ret, size);

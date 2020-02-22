@@ -11,7 +11,7 @@ void	parsing_dumps(int *ac, char ***av, t_fl *flag)
 			d_flag(flag, ft_atoi((*av)[i + 1]), (*av)[i] + 1, &i);
 		else if (!ft_strcmp((*av)[i] + 1, "l"))
 			live_aff_flag(flag, &i, 0);
-		else if (!ft_strcmp((*av)[i] + 1, "aff"))
+		else if (!ft_strcmp((*av)[i] + 1, "a"))
 			live_aff_flag(flag, &i, 1);
 		else if (!ft_strcmp((*av)[i] + 1, "n")
 				&& i + 1 < *ac && ft_isnumber((*av)[i + 1]))

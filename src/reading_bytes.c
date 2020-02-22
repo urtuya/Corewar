@@ -10,7 +10,7 @@ int				read_bin(int fd, int len, char *file)
 		error("Error reading file: %s\n", file);
 	if (size != len)
 		error("Invalid file: %s\n", file);
-	return (bin2int(buf, len));
+	return (bin2int(buf, 0, len));
 }
 
 unsigned char	*read_code(int fd, int len, char *file)

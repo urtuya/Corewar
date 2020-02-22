@@ -6,6 +6,14 @@ void	error(char *format, void *str)
 	exit(1);
 }
 
+void	error_large_code(char *file, int size)
+{
+	ft_fprintf(stderr, "Error: File ");
+	ft_fprintf(stderr, "%s has too large a code %d bytes > 682 bytes)\n",
+					file, size);
+	exit(1);
+}
+
 void	malloc_err(void *addr, char *func)
 {
 	if (!addr)

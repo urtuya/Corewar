@@ -15,13 +15,13 @@ int		get_args(t_cursor *cursor, unsigned char *arena, int i, int *move)
 	if (cursor->arg_type[i] == T_DIR)
 	{
 		size = op_tab[cursor->op_code].size_of_t_dir ? 2 : 4;
-		ret = bin2int(arena + ft_addr(cursor->cur_position + *move), size);
+		ret = bin2int(arena, ft_addr(cursor->cur_position + *move), size);
 		*move += size;
 	}
 	if (cursor->arg_type[i] == T_IND)
 	{
-		ret = bin2int(arena + ft_addr(cursor->cur_position + *move), IND_SIZE);
-		ret = bin2int(arena + ft_addr(cursor->cur_position +
+		ret = bin2int(arena, ft_addr(cursor->cur_position + *move), IND_SIZE);
+		ret = bin2int(arena, ft_addr(cursor->cur_position +
 									ft_addr(ret % IDX_MOD)), 4);
 		*move += 2;
 	}
@@ -39,16 +39,16 @@ void	op_lld(t_cursor *cursor, t_vm *vm)
 	if (cursor->arg_type[0] == T_DIR)
 	{
 		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + 4));
-		value = bin2int(arena + ft_addr(cursor->cur_position + 2), 4);
+		value = bin2int(arena, ft_addr(cursor->cur_position + 2), 4);
 		cursor->r[arg2 - 1] = value;
 		cursor->carry = !value ? 1 : 0;
 	}
 	else if (cursor->arg_type[0] == T_IND)
 	{
-		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + 4));
-		value = cursor->cur_position + (bin2int(arena +
+		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + 2));
+		value = cursor->cur_position + (bin2int(arena,
 										ft_addr(cursor->cur_position + 2), 4));
-		cursor->r[arg2 - 1] = bin2int(arena + ft_addr(value), 4);
+		cursor->r[arg2 - 1] = bin2int(arena, ft_addr(value), 4);
 		cursor->carry = !cursor->r[arg2 - 1] ? 1 : 0;
 	}
 }
@@ -65,7 +65,7 @@ void	op_lldi(t_cursor *cursor, t_vm *vm)
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
 	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
-	cursor->r[to] = bin2int(arena +
+	cursor->r[to] = bin2int(arena,
 		ft_addr(cursor->cur_position + args[0] + args[1]), REG_SIZE);
 	if (cursor->r[to])
 		cursor->carry = 0;
@@ -80,7 +80,7 @@ void	op_lfork(t_cursor *cursor, t_vm *vm)
 	unsigned char	*arena;
 
 	arena = vm->arena;
-	addr = bin2int(arena + ft_addr(cursor->cur_position + 1), 2);
+	addr = bin2int(arena, ft_addr(cursor->cur_position + 1), 2);
 	malloc_err((add = (t_cursor*)malloc(sizeof(t_cursor))), "op_lfork");
 	vm->cursor->prev = add;
 	add->next = vm->cursor;
@@ -106,5 +106,5 @@ void	op_aff(t_cursor *cursor, t_vm *vm)
 	move = 2;
 	arg = get_args(cursor, arena, 0, &move);
 	if (vm->flag.aff)
-		ft_printf("aff: %c\n", (char)arg);
+		ft_printf("Aff: %c\n", (char)arg);
 }

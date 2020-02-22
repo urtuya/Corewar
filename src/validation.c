@@ -9,18 +9,13 @@ void		check_valid(char *file, t_champ *champ)
 		error("Error open file: %s\n", file);
 	champ->header.magic = read_bin(fd, MAGIC_HEADER_SIZE, file);
 	if (champ->header.magic != COREWAR_EXEC_MAGIC)
-		error("Magic header: %s\n", file);
+		error("Invalid magic header: %s\n", file);
 	bin2str(fd, champ->header.prog_name, PROG_NAME_LENGTH);
 	if (read_bin(fd, NULL_SIZE, file) != 0)
 		error("No NULL after champion: %s\n", file);
 	champ->header.prog_size = read_bin(fd, EXEC_CODE_SIZE, file);
 	if (champ->header.prog_size > CHAMP_MAX_SIZE)
-	{
-		ft_fprintf(stderr, "Error: File ");
-		fprintf(stderr, "%s has too large a code %d bytes > 682 bytes)\n",
-				file, champ->header.prog_size);
-		exit(1);
-	}
+		error_large_code(file, champ->header.prog_size);
 	bin2str(fd, champ->header.comment, COMMENT_LENGTH);
 	if (read_bin(fd, NULL_SIZE, file) != 0)
 		error("No NULL after champion file: %s\n", file);
@@ -78,7 +73,7 @@ int			check_registers(t_cursor *cursor, unsigned char *arena)
 	{
 		if (cursor->arg_type[i] == T_REG)
 		{
-			reg = bin2int(arena + ft_addr(bytes_to_jmp), 1);
+			reg = bin2int(arena, ft_addr(bytes_to_jmp), 1);
 			if (reg < 1 || reg > REG_NUMBER)
 				return (0);
 		}

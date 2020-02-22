@@ -45,16 +45,16 @@ void		op_ld(t_cursor *cursor, t_vm *vm)
 	if (cursor->arg_type[0] == T_DIR)
 	{
 		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + DIR_SIZE));
-		value = bin2int(arena + ft_addr(cursor->cur_position + 2), DIR_SIZE);
+		value = bin2int(arena, ft_addr(cursor->cur_position + 2), DIR_SIZE);
 		cursor->r[arg2 - 1] = value;
 		cursor->carry = !value ? 1 : 0;
 	}
 	else if (cursor->arg_type[0] == T_IND)
 	{
 		arg2 = *(arena + ft_addr(cursor->cur_position + 2 + IND_SIZE));
-		value = cursor->cur_position + (bin2int(arena +
-							ft_addr(cursor->cur_position + 2), IND_SIZE));
-		cursor->r[arg2 - 1] = bin2int(arena + ft_addr(value), 4);
+		value = cursor->cur_position + (bin2int(arena,
+			ft_addr(cursor->cur_position + 2), IND_SIZE)) % IDX_MOD;
+		cursor->r[arg2 - 1] = bin2int(arena, ft_addr(value), 4);
 		cursor->carry = !cursor->r[arg2 - 1] ? 1 : 0;
 	}
 }
@@ -74,7 +74,7 @@ void	op_st(t_cursor *cursor, t_vm *vm)
 	}
 	else if (cursor->arg_type[1] == T_IND)
 	{
-		arg[1] = bin2int(arena + ft_addr(cursor->cur_position + 3), IND_SIZE);
+		arg[1] = bin2int(arena, ft_addr(cursor->cur_position + 3), IND_SIZE);
 		addr = ft_addr(cursor->cur_position + (arg[1] % IDX_MOD));
 		set_to_arena(arena, addr, cursor->r[arg[0]]);
 	}

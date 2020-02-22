@@ -28,7 +28,7 @@ t_vm	*init_vm(void)
 
 	malloc_err((vm = (t_vm*)malloc(sizeof(t_vm))), "init_vm");
 	vm->champ = NULL;
-	vm->flag = (t_fl){-1, 0, 0, 1, 0};
+	vm->flag = (t_fl){-1, 0, 0, 0, 0};
 	vm->players_num = 0;
 	vm->last_live = 0;
 	vm->num_of_cycles = 0;

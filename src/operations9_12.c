@@ -29,7 +29,7 @@ void	op_ldi(t_cursor *cursor, t_vm *vm)
 	args[0] = get_args(cursor, arena, 0, &move);
 	args[1] = get_args(cursor, arena, 1, &move);
 	to = *(arena + ft_addr(cursor->cur_position + move)) - 1;
-	cursor->r[to] = bin2int(arena + ft_addr(cursor->cur_position +
+	cursor->r[to] = bin2int(arena, ft_addr(cursor->cur_position +
 					(args[0] + args[1]) % IDX_MOD), REG_SIZE);
 }
 
@@ -56,7 +56,7 @@ void	op_fork(t_cursor *cursor, t_vm *vm)
 	unsigned char	*arena;
 
 	arena = vm->arena;
-	addr = bin2int(arena + ft_addr(cursor->cur_position + 1), 2);
+	addr = bin2int(arena, ft_addr(cursor->cur_position + 1), 2);
 	malloc_err((add = (t_cursor*)malloc(sizeof(t_cursor))), "op_fork");
 	vm->cursor->prev = add;
 	add->next = vm->cursor;

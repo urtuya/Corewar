@@ -26,10 +26,10 @@ void	d_flag(t_fl *flag, int num, char *str, int *i)
 	flag->num = num;
 	if (flag->num < 0)
 		exit(0);
-	if (!(ft_strcmp(str, "dump")))
-		set_dump_flag(&flag->dump, &flag->d);
-	else
+	if (!(ft_strcmp(str, "d")))
 		set_dump_flag(&flag->d, &flag->dump);
+	else
+		set_dump_flag(&flag->dump, &flag->d);
 	*i += 2;
 }
 
