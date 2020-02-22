@@ -13,6 +13,7 @@
 # define NULL_SIZE 4
 # define EXEC_CODE_SIZE 4
 
+
 typedef struct	s_champ
 {
 	size_t			id;
@@ -87,7 +88,7 @@ t_cursor		*create_cursor(t_cursor **cursor);
 //------------------velues_calculation.c
 int				ft_addr(int value);
 int				reverse_negative(int negative, int size);
-int				bin2int(unsigned char *buf, int size);
+int				bin2int(unsigned char *buf, int start, int size);
 void			bin2str(int fd, char *buf, int len);
 void			set_to_arena(unsigned char *arena, int addr, int arg);
 
@@ -126,7 +127,7 @@ void			print_list_of_cursors(t_cursor *cursor);
 void			print_registers(int *registers);
 
 //------------------parse_args.c
-void			parsing_args(t_vm *vm, int *ac, char ***av);
+void			parsing_args(t_vm *vvm, int *ac, char ***av);
 void			parsing_dumps(int *ac, char ***av, t_fl *flag);
 
 //------------------setting_ids.c
@@ -169,6 +170,7 @@ void			usage(void);
 void			error(char *format, void *str);
 void			malloc_err(void *addr, char *func);
 void			args_number(int num);
+void			error_large_code(char *file, int size);
 
 //------------------print.c
 void			introduce(t_champ *champ);
