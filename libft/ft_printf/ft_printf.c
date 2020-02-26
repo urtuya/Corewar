@@ -15,9 +15,7 @@
 int		result(t_arg *arg, int fd)
 {
 	int ret;
-	int i;
 
-	i = 0;
 	ret = arg->buf_len + arg->char_len + arg->full_len;
 	write(fd, arg->head, ret);
 	if (arg->color)

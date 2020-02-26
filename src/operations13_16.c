@@ -44,7 +44,6 @@ void	op_lld(t_cursor *cursor, t_vm *vm)
 {
 	int				value;
 	int				arg2;
-	int				move;
 	unsigned char	*arena;
 
 	arena = vm->arena;

@@ -19,7 +19,7 @@ static char	*champ_name(t_champ *chmp, int id)
 	champ = chmp;
 	while (champ)
 	{
-		if (champ->id == id)
+		if ((int)champ->id == id)
 			return (champ->header.prog_name);
 		champ = champ->next;
 	}

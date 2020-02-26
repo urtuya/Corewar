@@ -35,12 +35,10 @@ static t_cursor	*remove_one(t_cursor **head, t_cursor **curr)
 	return (tmp);
 }
 
-void			remove_dead_cursors(t_vm *vm, t_cursor *cursor)
+void			remove_dead_cursors(t_vm *vm)
 {
 	t_cursor *curr;
-	t_cursor *tmp;
 
-	tmp = NULL;
 	curr = vm->cursor;
 	while (curr)
 		if (vm->num_of_cycles - curr->last_live_cycle_nbr >= vm->cycles_to_die
@@ -50,10 +48,10 @@ void			remove_dead_cursors(t_vm *vm, t_cursor *cursor)
 			curr = curr->next;
 }
 
-void			inspection(t_vm *vm, t_cursor *cursor)
+void			inspection(t_vm *vm)
 {
 	vm->checks++;
-	remove_dead_cursors(vm, cursor);
+	remove_dead_cursors(vm);
 	if (vm->nbr_live >= NBR_LIVE || vm->checks == MAX_CHECKS)
 	{
 		vm->cycles_to_die -= CYCLE_DELTA;

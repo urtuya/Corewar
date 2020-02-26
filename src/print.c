@@ -38,7 +38,7 @@ void	print_winner(t_vm *vm)
 	champ = vm->champ;
 	while (champ)
 	{
-		if (champ->id == vm->last_live)
+		if ((int)champ->id == vm->last_live)
 		{
 			ft_printf("Contestant %d, \"%s\", has won !\n",
 						champ->id, champ->header.prog_name);

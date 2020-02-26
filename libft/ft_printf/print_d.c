@@ -89,7 +89,10 @@ char		*get_in_string(t_arg *arg, va_list va, char **ptr)
 		val = arg->length[1] && arg->length[1] == 'l' ?
 				(long long int)val : (long int)val;
 	else if (arg->length[0] == 'j' || arg->length[0] == 'z')
-		val = arg->length[0] ? val : (size_t)val;
+	{
+		if (arg->length[0] == 'z')
+			val = (size_t)val;
+	}	
 	else
 		val = (int)val;
 	str = ft_intmaxtoa(val, 10);

@@ -101,7 +101,7 @@ void	in_cycle(t_vm *vm)
 		run_cursor(vm, cursor);
 		if ((vm->cycles_to_die > 0 && vm->cycles_before_check == 0)
 			|| vm->cycles_to_die <= 0)
-			inspection(vm, vm->cursor);
+			inspection(vm);
 		cursor = vm->cursor;
 	}
 }

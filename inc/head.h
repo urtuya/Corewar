@@ -118,8 +118,8 @@ int				try_exec_oper(t_cursor *cursor, unsigned char *arena);
 void			run_cursor(t_vm *vm, t_cursor *cursor);
 void			in_cycle(t_vm *vm);
 
-void			remove_dead_cursors(t_vm *vm, t_cursor *cursor);
-void			inspection(t_vm *vm, t_cursor *cursor);
+void			remove_dead_cursors(t_vm *vm);
+void			inspection(t_vm *vm);
 
 void			print_info(t_champ *champ);
 void			print_arena(unsigned char *arena, t_champ *champ,

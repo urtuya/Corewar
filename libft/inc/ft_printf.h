@@ -67,8 +67,6 @@ void			set_width(t_arg *arg, va_list va);
 void			set_precision(t_arg *arg, va_list va);
 int				set_param(int *param, char *format);
 void			refresh(t_arg *arg);
-char			*ft_intmaxtoa(intmax_t val, int base);
-char			*ft_uintmaxtoa(uintmax_t val, int base);
 void			set_systems_bin(t_arg *arg, va_list va, char **ptr);
 void			save_to_buf_no_minus_bin(t_arg *arg, char *str, int len);
 void			save_to_buf_minus_bin(t_arg *arg, char *str, int len);
@@ -110,7 +108,6 @@ void			setting_spaces(t_arg *arg, char *str, int len);
 void			add_mem(t_arg *arg);
 void			add_mem_empty(t_arg *arg);
 int				until_perc(char *format);
-char			*ft_strnjoin(char *s1, char *s2, int len_s1, int len_s2);
 void			save_perc(t_arg *arg);
 void			dotset(char *needed, int *len);
 

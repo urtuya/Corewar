@@ -49,10 +49,8 @@ void	set_width(t_arg *arg, va_list va)
 
 void	set_fl_width_prec(t_arg *arg, va_list va)
 {
-	char	*tmp;
 	char	*str;
 
-	tmp = arg->format;
 	str = "-+0 #*.0123456789";
 	while (ft_strchr(str, *arg->format))
 	{

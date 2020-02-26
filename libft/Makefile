@@ -23,23 +23,33 @@ LIB_CFILES = ft_atoi.c ft_lstdel.c ft_memcpy.c\
 PRINTF_CFILES = adding_to_buf.c color.c ft_printf.c helping.c print_char.c\
 				print_d.c print_f.c print_o_x_b.c print_p.c print_unsign.c\
 				set_all_fields.c set_len_type.c unsigned_addchar.c ft_fprintf.c
-HFILES = inc/
-SRC_PRINTF_DIR = ft_printf/
-SRC_LIB_DIR = src/
-SRC = $(addprefix $(SRC_LIB_DIR), $(LIB_CFILES)) $(addprefix $(SRC_PRINTF_DIR), $(PRINTF_CFILES))
-OBJ =  $(LIB_CFILES:%.c=%.o) $(PRINTF_CFILES:%.c=%.o)
+
 FLAGGS = -Wall -Wextra -Werror
+HFILES = -I inc/
+PRINTF_DIR = ft_printf/
+SRC_DIR = src/
+OBJ_DIR = obj/
+SRC = $(addprefix $(SRC_DIR), $(LIB_CFILES)) $(addprefix $(PRINTF_DIR), $(PRINTF_CFILES))
+OBJ = $(addprefix $(OBJ_DIR), $(LIB_CFILES:.c=.o)) $(addprefix $(OBJ_DIR), $(PRINTF_CFILES:.c=.o))
 
-
-$(NAME):
-	@gcc -g $(FLAGGS) -c $(SRC) -I $(HFILES)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME) 
 
 all: $(NAME)
 
+$(NAME): $(OBJ_DIR) $(OBJ)
+	ar rc $(NAME) $(OBJ) $(INC)
+	ranlib $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	gcc -c $(FLAGGS) $(HFILES) $< -o $@
+
+$(OBJ_DIR)%.o: $(PRINTF_DIR)%.c
+	gcc -c $(FLAGGS) $(HFILES) $< -o $@
+
 clean:
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ_DIR)
 	@rm -rf *.h.gch
 
 fclean: clean
