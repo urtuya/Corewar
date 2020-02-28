@@ -83,6 +83,7 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_strnjoin(char *s1, char *s2, int len_s1, int len_s2);
 int				ft_isspace(int c);
 int				ft_isupper(int c);
+size_t			ft_count_sym(int n);
 
 typedef struct	s_list
 {

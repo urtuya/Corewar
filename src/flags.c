@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "head.h"
-#include <stdio.h>
 
 int		same_id(t_champ *champ, int id)
 {
@@ -20,7 +19,7 @@ int		same_id(t_champ *champ, int id)
 	tmp = champ;
 	while (tmp)
 	{
-		if ((int)tmp->id == id)
+		if (tmp->id == id)
 			return (1);
 		tmp = tmp->next;
 	}

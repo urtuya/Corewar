@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:36:23 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:36:24 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/28 23:36:07 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_winner(t_vm *vm)
 	champ = vm->champ;
 	while (champ)
 	{
-		if ((int)champ->id == vm->last_live)
+		if (champ->id == vm->last_live)
 		{
 			ft_printf("Contestant %d, \"%s\", has won !\n",
 						champ->id, champ->header.prog_name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_cycle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:35:16 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:35:17 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/28 23:37:28 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	in_cycle(t_vm *vm)
 		run_cursor(vm, cursor);
 		if ((vm->cycles_to_die > 0 && vm->cycles_before_check == 0)
 			|| vm->cycles_to_die <= 0)
-			inspection(vm);
+			inspection(vm, vm->cursor);
 		cursor = vm->cursor;
 	}
 }

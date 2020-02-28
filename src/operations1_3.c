@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations1_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:35:49 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:37:14 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/28 23:36:30 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*champ_name(t_champ *chmp, int id)
 	champ = chmp;
 	while (champ)
 	{
-		if ((int)champ->id == id)
+		if (champ->id == id)
 			return (champ->header.prog_name);
 		champ = champ->next;
 	}

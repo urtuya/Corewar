@@ -6,20 +6,15 @@
 /*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:43:10 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:43:31 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/28 21:00:12 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEAD_H
 # define HEAD_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <fcntl.h>
 # include "op.h"
-# include "../libft/inc/libft.h"
+# include "libft.h"
 
 # define MAGIC_HEADER_SIZE 4
 # define NULL_SIZE 4
@@ -118,8 +113,8 @@ int				try_exec_oper(t_cursor *cursor, unsigned char *arena);
 void			run_cursor(t_vm *vm, t_cursor *cursor);
 void			in_cycle(t_vm *vm);
 
-void			remove_dead_cursors(t_vm *vm);
-void			inspection(t_vm *vm);
+void			remove_dead_cursors(t_vm *vm, t_cursor *cursor);
+void			inspection(t_vm *vm, t_cursor *cursor);
 
 void			print_info(t_champ *champ);
 void			print_arena(unsigned char *arena, t_champ *champ,

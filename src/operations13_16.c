@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations13_16.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:36:08 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:36:09 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/02/28 23:35:55 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	op_lld(t_cursor *cursor, t_vm *vm)
 {
 	int				value;
 	int				arg2;
+	int				move;
 	unsigned char	*arena;
 
 	arena = vm->arena;
