@@ -3,16 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:36:17 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:36:18 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/03/01 20:33:28 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "head.h"
 
-void	parsing_dumps(int *ac, char ***av, t_fl *flag)
+static void	count_champs(int ac, char **av)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (i < ac)
+	{
+		if (av[i][0] == '-' && !ft_strcmp(av[i] + 1, "n") && i + 1 < ac)
+			i += 2;
+		else
+		{
+			i++;
+			count++;
+		}
+	}
+	if (count > MAX_ARGS_NUMBER)
+		error("Too many champions\n", "");
+}
+
+void		parsing_dumps(int *ac, char ***av, t_fl *flag)
 {
 	int i;
 
@@ -34,9 +55,10 @@ void	parsing_dumps(int *ac, char ***av, t_fl *flag)
 	(*ac) -= i;
 	if (!*ac)
 		usage();
+	count_champs(*ac, *av);
 }
 
-void	parsing_args(t_vm *vm, int *ac, char ***av)
+void		parsing_args(t_vm *vm, int *ac, char ***av)
 {
 	int				i;
 	int				n;

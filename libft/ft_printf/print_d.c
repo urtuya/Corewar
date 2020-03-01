@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_d.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 17:46:45 by vellery-          #+#    #+#             */
-/*   Updated: 2019/06/28 17:46:46 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/03/01 14:44:52 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char		*get_in_string(t_arg *arg, va_list va, char **ptr)
 	{
 		if (arg->length[0] == 'z')
 			val = (size_t)val;
-	}	
+	}
 	else
 		val = (int)val;
 	str = ft_intmaxtoa(val, 10);

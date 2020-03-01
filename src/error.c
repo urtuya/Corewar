@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vellery- <vellery-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:35:07 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:35:08 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/03/01 20:34:35 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	usage(void)
 {
 	ft_fprintf(stderr, "Usage: ./corewar [-d N -dump N -l -aff] [[-n N]");
 	ft_fprintf(stderr, "<champion1.cor>] <...>\n\n");
-	ft_fprintf(stderr, "    -l:		turn off live-operation output\n");
-	ft_fprintf(stderr, "    -aff:   	turn on aff-operation output\n");
-	ft_fprintf(stderr, "    -d N:	dumps memory after N cycles then exists ");
+	ft_fprintf(stderr, "    -l:		turn on live-operation output\n");
+	ft_fprintf(stderr, "    -a:   	turn on aff-operation output\n");
+	ft_fprintf(stderr, "    -d N:	dumps memory after N cycles then exits ");
 	ft_fprintf(stderr, "(64 octets)\n");
 	ft_fprintf(stderr, "    -dump N:	dumps memory after N cycles then ");
-	ft_fprintf(stderr, "exists (32 octets)\n");
+	ft_fprintf(stderr, "exits (32 octets)\n");
 	ft_fprintf(stderr, "    -n N:	sets the number of next player. ");
 	ft_fprintf(stderr, "If non-existent, the player\n\t\twill have the next");
-	ft_fprintf(stderr, "available number in the order of the parameters.\n");
+	ft_fprintf(stderr, " available number in the order of the parameters.\n");
 	exit(1);
 }

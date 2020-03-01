@@ -36,17 +36,17 @@ OBJ = $(addprefix $(OBJ_DIR), $(LIB_CFILES:.c=.o)) $(addprefix $(OBJ_DIR), $(PRI
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
-	ar rc $(NAME) $(OBJ) $(INC)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJ) $(INC)
+	@ranlib $(NAME)
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	gcc -c $(FLAGGS) $(HFILES) $< -o $@
+	@gcc -c $(FLAGGS) $(HFILES) $< -o $@
 
 $(OBJ_DIR)%.o: $(PRINTF_DIR)%.c
-	gcc -c $(FLAGGS) $(HFILES) $< -o $@
+	@gcc -c $(FLAGGS) $(HFILES) $< -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR)

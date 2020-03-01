@@ -6,7 +6,7 @@
 /*   By: vellery- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 22:35:11 by vellery-          #+#    #+#             */
-/*   Updated: 2020/02/22 22:35:12 by vellery-         ###   ########.fr       */
+/*   Updated: 2020/03/01 15:58:55 by vellery-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	d_flag(t_fl *flag, int num, char *str, int *i)
 void	live_aff_flag(t_fl *flag, int *i, int q)
 {
 	if (!q)
-		flag->live = 0;
+		flag->live = 1;
 	else if (q == 1)
 		flag->aff = 1;
 	*i += 1;
